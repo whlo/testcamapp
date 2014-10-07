@@ -25,6 +25,8 @@ namespace CameraApp
         private Bitmap windowPic = null;
         Form childForm = new Form2();
 
+        Mat captureImg = new Mat();
+
         public Form1()
         {
             InitializeComponent();
@@ -77,15 +79,13 @@ namespace CameraApp
             return (ComboBox)(this.Controls["camList" + index.ToString()]);
         }
 
-
         //画像表示
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             Mat resizedImg = new Mat(Cv.Size(320, 240),MatType.CV_8U);
-            Mat captureImg = new Mat();
             captureImg = eventArgs.Frame.ToMat();
             Cv2.Resize(captureImg, resizedImg,resizedImg.Size(),1,1,Interpolation.Linear);
-            captureImg.Dispose();
+            //captureImg.Dispose();
             windowPic = resizedImg.ToBitmap();
             resizedImg.Dispose();
             pictureBox1.Image = (Image)windowPic.Clone();
@@ -108,7 +108,7 @@ namespace CameraApp
         //画像の保存
         private void saveImage(Mat Image,int camIndex)
         {
-            string date = DateTime.Now.ToString("HH：mm：ss,fff");
+            string date = DateTime.Now.ToString("HH/mm/ss,fff");
             Image.SaveImage(string.Format("{0} - {1}.bmp",camIndex,date));
         }
 
@@ -179,6 +179,11 @@ namespace CameraApp
             {
                 childForm.Close();
             }
+        }
+
+        private void savePicBtn_Click(object sender, EventArgs e)
+        {
+            saveImage(captureImg, 1);
         }
     }
 }

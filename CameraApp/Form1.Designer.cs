@@ -54,6 +54,7 @@
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.cam2InfoLabel = new System.Windows.Forms.Label();
+            this.savePicBtn = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -292,11 +293,22 @@
             this.cam2InfoLabel.TabIndex = 21;
             this.cam2InfoLabel.Text = "Stop";
             // 
+            // savePicBtn
+            // 
+            this.savePicBtn.Location = new System.Drawing.Point(534, 404);
+            this.savePicBtn.Name = "savePicBtn";
+            this.savePicBtn.Size = new System.Drawing.Size(75, 23);
+            this.savePicBtn.TabIndex = 22;
+            this.savePicBtn.Text = "画像の保存";
+            this.savePicBtn.UseVisualStyleBackColor = true;
+            this.savePicBtn.Click += new System.EventHandler(this.savePicBtn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 621);
+            this.Controls.Add(this.savePicBtn);
             this.Controls.Add(this.cam2InfoLabel);
             this.Controls.Add(this.loggerChkBox);
             this.Controls.Add(this.cam1InfoLabel);
@@ -363,6 +375,7 @@
         private System.Windows.Forms.ToolStripMenuItem ファイルToolStripMenuItem;
         private System.Windows.Forms.CheckBox loggerChkBox;
         private System.Windows.Forms.Label cam2InfoLabel;
+        private System.Windows.Forms.Button savePicBtn;
     }
 }
 
