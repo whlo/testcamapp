@@ -18,6 +18,8 @@ namespace CameraApp
         Caio aio = new Caio();
         Boolean form2show = true;
 
+        short devId = 0;
+
         public Form2()
         {
             InitializeComponent();
@@ -80,6 +82,12 @@ namespace CameraApp
         private void followFormChk_CheckStateChanged(object sender, EventArgs e)
         {
             formLocation();
+        }
+
+        private void aioInitBtn_Click(object sender, EventArgs e)
+        {
+            int aioDevicestate;
+            aioDevicestate = aio.Init(comboBox1.SelectedItem.ToString(), out devId);
         }
     }
 }
