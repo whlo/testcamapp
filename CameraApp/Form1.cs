@@ -85,7 +85,7 @@ namespace CameraApp
             Mat resizedImg = new Mat(Cv.Size(320, 240),MatType.CV_8U);
             captureImg = eventArgs.Frame.ToMat();
             Cv2.Resize(captureImg, resizedImg,resizedImg.Size(),1,1,Interpolation.Linear);
-            //captureImg.Dispose();
+            captureImg.Dispose();
             windowPic = resizedImg.ToBitmap();
             resizedImg.Dispose();
             pictureBox1.Image = (Image)windowPic.Clone();
@@ -108,6 +108,7 @@ namespace CameraApp
         //画像の保存
         private void saveImage(Mat Image,int camIndex)
         {
+            captureBtn_Click(null, null);
             string date = DateTime.Now.ToString("HH/mm/ss,fff");
             Image.SaveImage(string.Format("{0} - {1}.bmp",camIndex,date));
         }
