@@ -28,18 +28,21 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.initAioDeviceBtn = new System.Windows.Forms.Button();
             this.getAioDeviceBtn = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.followFormChk = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.statusLabel2 = new System.Windows.Forms.Label();
-            this.aioInitBtn = new System.Windows.Forms.Button();
+            this.maxChLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -47,35 +50,38 @@
             // 
             // chart1
             // 
-            chartArea1.AxisX.LineColor = System.Drawing.Color.DarkGray;
-            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
-            chartArea1.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
-            chartArea1.AxisY.LineColor = System.Drawing.Color.DarkGray;
-            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
-            chartArea1.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
-            chartArea1.AxisY.MinorGrid.Enabled = true;
-            chartArea1.AxisY.MinorGrid.LineColor = System.Drawing.Color.Gainsboro;
-            chartArea1.BackColor = System.Drawing.Color.White;
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            legend1.Enabled = false;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
+            chartArea2.AxisX.LineColor = System.Drawing.Color.DarkGray;
+            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
+            chartArea2.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
+            chartArea2.AxisY.LineColor = System.Drawing.Color.DarkGray;
+            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
+            chartArea2.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
+            chartArea2.AxisY.MinorGrid.Enabled = true;
+            chartArea2.AxisY.MinorGrid.LineColor = System.Drawing.Color.Gainsboro;
+            chartArea2.BackColor = System.Drawing.Color.White;
+            chartArea2.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea2);
+            legend2.Enabled = false;
+            legend2.Name = "Legend1";
+            this.chart1.Legends.Add(legend2);
             this.chart1.Location = new System.Drawing.Point(12, 247);
             this.chart1.Name = "chart1";
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series1.Color = System.Drawing.Color.Red;
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chart1.Series.Add(series1);
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series2.Color = System.Drawing.Color.Red;
+            series2.Legend = "Legend1";
+            series2.Name = "Series1";
+            this.chart1.Series.Add(series2);
             this.chart1.Size = new System.Drawing.Size(300, 300);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.aioInitBtn);
+            this.groupBox1.Controls.Add(this.maxChLabel);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.comboBox2);
+            this.groupBox1.Controls.Add(this.initAioDeviceBtn);
             this.groupBox1.Controls.Add(this.getAioDeviceBtn);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.comboBox1);
@@ -85,6 +91,34 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "データボード処理";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(87, 90);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(17, 12);
+            this.label2.TabIndex = 6;
+            this.label2.Text = "ch";
+            // 
+            // comboBox2
+            // 
+            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox2.FormattingEnabled = true;
+            this.comboBox2.Location = new System.Drawing.Point(110, 87);
+            this.comboBox2.Name = "comboBox2";
+            this.comboBox2.Size = new System.Drawing.Size(34, 20);
+            this.comboBox2.TabIndex = 5;
+            // 
+            // initAioDeviceBtn
+            // 
+            this.initAioDeviceBtn.Location = new System.Drawing.Point(6, 85);
+            this.initAioDeviceBtn.Name = "initAioDeviceBtn";
+            this.initAioDeviceBtn.Size = new System.Drawing.Size(75, 23);
+            this.initAioDeviceBtn.TabIndex = 4;
+            this.initAioDeviceBtn.Text = "初期化";
+            this.initAioDeviceBtn.UseVisualStyleBackColor = true;
+            this.initAioDeviceBtn.Click += new System.EventHandler(this.initAioDeviceBtn_Click);
             // 
             // getAioDeviceBtn
             // 
@@ -146,15 +180,14 @@
             this.statusLabel2.TabIndex = 0;
             this.statusLabel2.Text = "停止しています";
             // 
-            // aioInitBtn
+            // maxChLabel
             // 
-            this.aioInitBtn.Location = new System.Drawing.Point(6, 76);
-            this.aioInitBtn.Name = "aioInitBtn";
-            this.aioInitBtn.Size = new System.Drawing.Size(75, 23);
-            this.aioInitBtn.TabIndex = 4;
-            this.aioInitBtn.Text = "初期化";
-            this.aioInitBtn.UseVisualStyleBackColor = true;
-            this.aioInitBtn.Click += new System.EventHandler(this.aioInitBtn_Click);
+            this.maxChLabel.AutoSize = true;
+            this.maxChLabel.Location = new System.Drawing.Point(150, 90);
+            this.maxChLabel.Name = "maxChLabel";
+            this.maxChLabel.Size = new System.Drawing.Size(9, 12);
+            this.maxChLabel.TabIndex = 7;
+            this.maxChLabel.Text = " ";
             // 
             // Form2
             // 
@@ -190,6 +223,9 @@
         private System.Windows.Forms.CheckBox followFormChk;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Label statusLabel2;
-        private System.Windows.Forms.Button aioInitBtn;
+        private System.Windows.Forms.Button initAioDeviceBtn;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.Label maxChLabel;
     }
 }

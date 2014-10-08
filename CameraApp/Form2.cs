@@ -17,6 +17,7 @@ namespace CameraApp
     {
         Caio aio = new Caio();
         Boolean form2show = true;
+        Boolean aioDeviceExist = false;
 
         short devId = 0;
 
@@ -46,32 +47,125 @@ namespace CameraApp
             this.Owner.SizeChanged += (sarg, earg) => formLocation();
         }
 
+        //ステータスメッセージ表示
+        private void statusMsg(int state,string msg)
+        {
+            if (msg == null)//nullならcaio絡みのメッセージとする
+            {
+                if (state == 0)
+                {
+                    statusLabel2.ForeColor = Color.Black;
+                    statusLabel2.Text = "正常終了";
+                }
+                else
+                {
+                    statusLabel2.ForeColor = Color.Red;
+                    string errorString;
+                    aio.GetErrorString(state, out errorString);
+                    statusLabel2.Text = state.ToString() + "-" + errorString;
+                }
+            }
+            else
+            {
+                if (state == 0)//nullでなかったらstateで色を決める
+                {
+                    statusLabel2.ForeColor = Color.Black;
+                    statusLabel2.Text = msg;
+                }
+                else
+                {
+                    statusLabel2.ForeColor = Color.Red;
+                    statusLabel2.Text = msg;
+                }
+            }
+        }
+
         //CAIOデバイスの取得、初期化
-        private void caioInit()
+        private void caioGetDevice()
         {
             List<string> devList = new List<string>();
-            string devId = null;
+            string devDriverId = null;
             string devName = null;
             short count = 0;
-            int devExist = 0;
-            do
+            int devState = 0;
+            comboBox1.Items.Clear();
+            while (devState == 0)
             {
-                devExist = aio.QueryDeviceName(count, out devId, out devName);
-                devList.Add(devId);
-                count++;
+                devState = aio.QueryDeviceName(count, out devDriverId, out devName);
+                if (devState == 0)
+                {
+                    devList.Add(devDriverId);
+                    count++;
+                }
             }
-            while (devExist != 0);
-            foreach (string device in devList)
+            if (count > 0)
             {
-                comboBox1.Items.Add(device);
-                comboBox1.SelectedIndex = 0;
+                foreach (string device in devList)
+                {
+                    comboBox1.Items.Add(device);
+                    comboBox1.SelectedIndex = 0;
+                }
+                statusMsg(0, ("デバイスが" + count.ToString() + "個見つかりました").ToString());
+                maxChLabel.Text = "";
+                aioDeviceExist = true;
             }
+            else
+            {
+                aioDeviceExist = false;
+            }
+        }
 
+        //デバイスの初期化
+        private void caioInitDevice()
+        {
+            if (aioDeviceExist)
+            {
+                int aioDeviceState = 0;
+                aioDeviceState = aio.Init(comboBox1.SelectedItem.ToString(), out devId);
+                if (aioDeviceState != 0)
+                {
+                    statusMsg(aioDeviceState, null);
+                    return;
+                }
+                statusMsg(0, "デバイスの初期化に成功しました");
+                caioGetChannel();
+            }
+            else
+            {
+                statusMsg(1, "デバイス取得を先に行ってください。");
+            }
+        }
+
+        //チャンネル数取得
+        private void caioGetChannel()
+        {
+            short ch = 0;
+            int aioChannelState = 0;
+            aioChannelState = aio.GetAiMaxChannels(devId, out ch);
+            if (aioChannelState != 0)
+            {
+                statusMsg(aioChannelState, null);
+            }
+            else
+            {
+                comboBox2.Items.Clear();
+                for (int i = 0; i < ch; i++)
+                {
+                    comboBox2.Items.Add(i);
+                }
+                comboBox2.SelectedIndex = 0;
+            }
+            maxChLabel.Text = "最大" + ch.ToString() + "ch";
         }
 
         private void getAioDeviceBtn_Click(object sender, EventArgs e)
         {
-            caioInit();
+            caioGetDevice();
+        }
+
+        private void initAioDeviceBtn_Click(object sender, EventArgs e)
+        {
+            caioInitDevice();
         }
 
         private void Form2_FormClosed(object sender, FormClosedEventArgs e)
@@ -84,10 +178,5 @@ namespace CameraApp
             formLocation();
         }
 
-        private void aioInitBtn_Click(object sender, EventArgs e)
-        {
-            int aioDevicestate;
-            aioDevicestate = aio.Init(comboBox1.SelectedItem.ToString(), out devId);
-        }
     }
 }
