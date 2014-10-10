@@ -18,6 +18,10 @@ namespace CameraApp
         Caio aio = new Caio();
         Boolean form2show = true;
         Boolean aioDeviceExist = false;
+        List<string> devList = new List<string>();
+        List<string> devNameList = new List<string>();
+
+        float[] aioVoltData = new float[10000];
 
         short devId = 0;
 
@@ -25,6 +29,22 @@ namespace CameraApp
         {
             InitializeComponent();
         }
+
+        //子フォームを閉じられないようにする
+        protected override System.Windows.Forms.CreateParams CreateParams
+        {
+            get
+            {
+                const int CS_NOCLOSE = 0x200;
+
+                System.Windows.Forms.CreateParams createParams = base.CreateParams;
+                createParams.ClassStyle |= CS_NOCLOSE;
+
+                return createParams;
+            }
+        }
+
+        //位置追従
         public void formLocation()
         {
             if (form2show && followFormChk.Checked)
@@ -44,7 +64,8 @@ namespace CameraApp
         {
             formLocation();
             this.Owner.Move += (sarg, earg) => formLocation();
-            this.Owner.SizeChanged += (sarg, earg) => formLocation();
+            //this.Owner.SizeChanged += (sarg, earg) => formLocation();
+            this.Width = 340;
         }
 
         //ステータスメッセージ表示
@@ -63,11 +84,12 @@ namespace CameraApp
                     string errorString;
                     aio.GetErrorString(state, out errorString);
                     statusLabel2.Text = state.ToString() + "-" + errorString;
+                    return;
                 }
             }
             else
             {
-                if (state == 0)//nullでなかったらstateで色を決める
+                if (state == 0)//nullでなかったらstateで色を決める。
                 {
                     statusLabel2.ForeColor = Color.Black;
                     statusLabel2.Text = msg;
@@ -83,7 +105,8 @@ namespace CameraApp
         //CAIOデバイスの取得、初期化
         private void caioGetDevice()
         {
-            List<string> devList = new List<string>();
+            devList.Clear();
+            devNameList.Clear();
             string devDriverId = null;
             string devName = null;
             short count = 0;
@@ -95,6 +118,7 @@ namespace CameraApp
                 if (devState == 0)
                 {
                     devList.Add(devDriverId);
+                    devNameList.Add(devName);
                     count++;
                 }
             }
@@ -108,10 +132,12 @@ namespace CameraApp
                 statusMsg(0, ("デバイスが" + count.ToString() + "個見つかりました").ToString());
                 maxChLabel.Text = "";
                 aioDeviceExist = true;
+                initAioDeviceBtn.Enabled = true;
             }
             else
             {
                 aioDeviceExist = false;
+                statusMsg(1, "デバイスが見つかりません");
             }
         }
 
@@ -120,15 +146,24 @@ namespace CameraApp
         {
             if (aioDeviceExist)
             {
-                int aioDeviceState = 0;
-                aioDeviceState = aio.Init(comboBox1.SelectedItem.ToString(), out devId);
-                if (aioDeviceState != 0)
+                int aioInitState = aio.Init(comboBox1.SelectedItem.ToString(), out devId);
+                if (aioInitState != 0)
                 {
-                    statusMsg(aioDeviceState, null);
+                    statusMsg(aioInitState, null);
                     return;
                 }
-                statusMsg(0, "デバイスの初期化に成功しました");
+
+                int aioResetState = 0;
+                aioResetState = aio.ResetDevice(devId);
+                if (aioResetState != 0)
+                {
+                    statusMsg(aioResetState, null);
+                    return;
+                }
                 caioGetChannel();
+                statusMsg(0, "デバイスの初期化に成功しました");
+                loggingStartBtn.Enabled = true;
+                testLoggingBtn.Enabled = true;
             }
             else
             {
@@ -140,22 +175,89 @@ namespace CameraApp
         private void caioGetChannel()
         {
             short ch = 0;
-            int aioChannelState = 0;
-            aioChannelState = aio.GetAiMaxChannels(devId, out ch);
+            int aioChannelState = aio.GetAiMaxChannels(devId, out ch);
             if (aioChannelState != 0)
             {
                 statusMsg(aioChannelState, null);
+                return;
             }
             else
             {
-                comboBox2.Items.Clear();
+                xAxisListBox.Items.Clear();
+                yAxisListBox.Items.Clear();
                 for (int i = 0; i < ch; i++)
                 {
-                    comboBox2.Items.Add(i);
+                    xAxisListBox.Items.Add(i);
+                    yAxisListBox.Items.Add(i);
                 }
-                comboBox2.SelectedIndex = 0;
+                xAxisListBox.SelectedIndex = 0;
+                yAxisListBox.SelectedIndex = 1;
             }
-            maxChLabel.Text = "最大" + ch.ToString() + "ch";
+
+            maxChLabel.Text = ch.ToString() + "ch";
+
+        }
+
+        //ロガーの設定
+        private void setLogger()
+        {
+            //使用チャンネル数(1～2)
+            int aioCh = aio.SetAiChannels(devId, 1);
+            if (aioCh != 0)
+            {
+                statusMsg(aioCh, null);
+                return;
+            }
+
+            //メモリ格納形式(FIFO固定)
+            int aioMem = aio.SetAiMemoryType(devId,0);
+            if (aioMem != 0)
+            {
+                statusMsg(aioMem, null);
+                return;
+            }
+
+            //クロック(データボード内部のものを使用)
+            int aioClk = aio.SetAiClockType(devId, 0);
+            if (aioClk != 0)
+            {
+                statusMsg(aioClk, null);
+                return;
+            }
+
+            //変換速度(間隔)
+            int aioSpd = aio.SetAiSamplingClock(devId, 1000);
+            if (aioSpd != 0)
+            {
+                statusMsg(aioSpd, null);
+                return;
+            }
+            //開始条件(SW側)
+            int aioStartTrg = aio.SetAiStartTrigger(devId, 0);
+            if (aioStartTrg != 0)
+            {
+                statusMsg(aioStartTrg, null);
+                return;
+            }
+            
+            //停止条件(SW側)
+            int aioStopTrg = aio.SetAiStopTrigger(devId, 0);
+            if (aioStopTrg != 0)
+            {
+                statusMsg(aioStopTrg, null);
+                return;
+            }
+        }
+
+        private void resetAioMem()
+        {
+            int aioResMem = aio.ResetAiMemory(devId);
+            if (aioResMem != 0)
+            {
+                statusMsg(aioResMem, null);
+                return;
+            }
+
         }
 
         private void getAioDeviceBtn_Click(object sender, EventArgs e)
@@ -178,5 +280,74 @@ namespace CameraApp
             formLocation();
         }
 
+        private void advSetChkBtn_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (advSetChkBtn.Checked)
+            {
+                this.Width = 580;
+            }
+            else
+            {
+                this.Width = 340;
+            }
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            devNameLabel.Text = devNameList[comboBox1.SelectedIndex];
+            loggingStartBtn.Enabled = false;
+            testLoggingBtn.Enabled = false;
+        }
+
+        private void loggingStartBtn_Click(object sender, EventArgs e)
+        {
+            if (loggingStartBtn.Text == "開始")
+            {
+                resetAioMem();
+                int aioStartLogging = aio.StartAi(devId);
+                if (aioStartLogging != 0)
+                {
+                    statusMsg(aioStartLogging, null);
+                    return;
+                }
+                statusLabel2.Text = "変換を開始しました";
+                loggingStartBtn.Text = "取得中...";
+                //timer1.Start();
+            }
+            else
+            {
+                //timer1.Stop();
+                loggingStartBtn.Text = "開始";
+            }
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            int a = 1000;
+            aio.GetAiSamplingDataEx(devId, ref a,ref aioVoltData);
+        }
+
+        //とりあえず実装
+        private void testLoggingBtn_Click(object sender, EventArgs e)
+        {
+            resetAioMem();
+            int aioStartLogging = aio.StartAi(devId);
+            if (aioStartLogging != 0)
+            {
+                statusMsg(aioStartLogging, null);
+                return;
+            }
+            System.Threading.Thread.Sleep(1000);
+            int a = 1000;
+            aio.GetAiSamplingDataEx(devId, ref a, ref aioVoltData);
+            aio.StopAi(devId);
+            listBox1.Items.Clear();
+            for (int i = 0; i < a; i++)
+            {
+                listBox1.Items.Add(aioVoltData[i]);
+            }
+        }
     }
 }
