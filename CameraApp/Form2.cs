@@ -260,6 +260,11 @@ namespace CameraApp
 
         }
 
+        private void drawGraph()
+        {
+
+        }
+
         private void getAioDeviceBtn_Click(object sender, EventArgs e)
         {
             caioGetDevice();
@@ -329,7 +334,7 @@ namespace CameraApp
             aio.GetAiSamplingDataEx(devId, ref a,ref aioVoltData);
         }
 
-        //とりあえず実装
+        //とりあえず実装(FIFOで)
         private void testLoggingBtn_Click(object sender, EventArgs e)
         {
             resetAioMem();
