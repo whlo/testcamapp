@@ -29,11 +29,13 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.logModeChk = new System.Windows.Forms.CheckBox();
+            this.testLoggingBtn = new System.Windows.Forms.Button();
             this.loggingStartBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.yAxisListBox = new System.Windows.Forms.ListBox();
@@ -52,10 +54,14 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.devNameLabel = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.data1Label = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.testLoggingBtn = new System.Windows.Forms.Button();
+            this.devNameLabel = new System.Windows.Forms.Label();
+            this.devMemoryTimer = new System.Windows.Forms.Timer(this.components);
+            this.pcMemoryTimer = new System.Windows.Forms.Timer(this.components);
+            this.label8 = new System.Windows.Forms.Label();
+            this.data2Label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -64,34 +70,35 @@
             // 
             // chart1
             // 
-            chartArea2.AxisX.LineColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisY.LineColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisY.MinorGrid.Enabled = true;
-            chartArea2.AxisY.MinorGrid.LineColor = System.Drawing.Color.Gainsboro;
-            chartArea2.BackColor = System.Drawing.Color.White;
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Enabled = false;
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            chartArea1.AxisX.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MinorGrid.Enabled = true;
+            chartArea1.AxisY.MinorGrid.LineColor = System.Drawing.Color.Gainsboro;
+            chartArea1.BackColor = System.Drawing.Color.White;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(12, 247);
             this.chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series2.Color = System.Drawing.Color.Red;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart1.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series1.Color = System.Drawing.Color.Red;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(300, 300);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.logModeChk);
             this.groupBox1.Controls.Add(this.testLoggingBtn);
             this.groupBox1.Controls.Add(this.loggingStartBtn);
             this.groupBox1.Controls.Add(this.label3);
@@ -108,6 +115,27 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "データボード処理";
+            // 
+            // logModeChk
+            // 
+            this.logModeChk.AutoSize = true;
+            this.logModeChk.Location = new System.Drawing.Point(6, 171);
+            this.logModeChk.Name = "logModeChk";
+            this.logModeChk.Size = new System.Drawing.Size(124, 16);
+            this.logModeChk.TabIndex = 13;
+            this.logModeChk.Text = "内蔵メモリに取得する";
+            this.logModeChk.UseVisualStyleBackColor = true;
+            // 
+            // testLoggingBtn
+            // 
+            this.testLoggingBtn.Enabled = false;
+            this.testLoggingBtn.Location = new System.Drawing.Point(6, 105);
+            this.testLoggingBtn.Name = "testLoggingBtn";
+            this.testLoggingBtn.Size = new System.Drawing.Size(75, 23);
+            this.testLoggingBtn.TabIndex = 12;
+            this.testLoggingBtn.Text = "1time";
+            this.testLoggingBtn.UseVisualStyleBackColor = true;
+            this.testLoggingBtn.Click += new System.EventHandler(this.testLoggingBtn_Click);
             // 
             // loggingStartBtn
             // 
@@ -254,9 +282,9 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(6, 22);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(55, 12);
+            this.label4.Size = new System.Drawing.Size(61, 12);
             this.label4.TabIndex = 8;
-            this.label4.Text = "デバイス名";
+            this.label4.Text = "デバイス名 :";
             // 
             // label5
             // 
@@ -278,6 +306,10 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.data2Label);
+            this.groupBox3.Controls.Add(this.label8);
+            this.groupBox3.Controls.Add(this.data1Label);
+            this.groupBox3.Controls.Add(this.label7);
             this.groupBox3.Controls.Add(this.listBox1);
             this.groupBox3.Controls.Add(this.devNameLabel);
             this.groupBox3.Controls.Add(this.label4);
@@ -291,6 +323,33 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "データボード詳細設定";
             // 
+            // data1Label
+            // 
+            this.data1Label.AutoSize = true;
+            this.data1Label.Location = new System.Drawing.Point(105, 98);
+            this.data1Label.Name = "data1Label";
+            this.data1Label.Size = new System.Drawing.Size(9, 12);
+            this.data1Label.TabIndex = 14;
+            this.data1Label.Text = " ";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 98);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(29, 12);
+            this.label7.TabIndex = 13;
+            this.label7.Text = "x値 :";
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 12;
+            this.listBox1.Location = new System.Drawing.Point(12, 477);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(108, 100);
+            this.listBox1.TabIndex = 12;
+            // 
             // devNameLabel
             // 
             this.devNameLabel.AutoSize = true;
@@ -300,29 +359,31 @@
             this.devNameLabel.TabIndex = 11;
             this.devNameLabel.Text = "N/A";
             // 
-            // timer1
+            // devMemoryTimer
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.devMemoryTimer.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // listBox1
+            // pcMemoryTimer
             // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(12, 84);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(120, 484);
-            this.listBox1.TabIndex = 12;
+            this.pcMemoryTimer.Tick += new System.EventHandler(this.pcMemoryTimer_Tick);
             // 
-            // testLoggingBtn
+            // label8
             // 
-            this.testLoggingBtn.Enabled = false;
-            this.testLoggingBtn.Location = new System.Drawing.Point(8, 105);
-            this.testLoggingBtn.Name = "testLoggingBtn";
-            this.testLoggingBtn.Size = new System.Drawing.Size(75, 23);
-            this.testLoggingBtn.TabIndex = 12;
-            this.testLoggingBtn.Text = "1time";
-            this.testLoggingBtn.UseVisualStyleBackColor = true;
-            this.testLoggingBtn.Click += new System.EventHandler(this.testLoggingBtn_Click);
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 127);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 12);
+            this.label8.TabIndex = 15;
+            this.label8.Text = "y値 :";
+            // 
+            // data2Label
+            // 
+            this.data2Label.AutoSize = true;
+            this.data2Label.Location = new System.Drawing.Point(105, 127);
+            this.data2Label.Name = "data2Label";
+            this.data2Label.Size = new System.Drawing.Size(9, 12);
+            this.data2Label.TabIndex = 16;
+            this.data2Label.Text = " ";
             // 
             // Form2
             // 
@@ -375,8 +436,14 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label devNameLabel;
         private System.Windows.Forms.Button loggingStartBtn;
-        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer devMemoryTimer;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Button testLoggingBtn;
+        private System.Windows.Forms.Label data1Label;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.CheckBox logModeChk;
+        private System.Windows.Forms.Timer pcMemoryTimer;
+        private System.Windows.Forms.Label data2Label;
+        private System.Windows.Forms.Label label8;
     }
 }

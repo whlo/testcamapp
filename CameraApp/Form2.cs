@@ -144,6 +144,7 @@ namespace CameraApp
         //デバイスの初期化
         private void caioInitDevice()
         {
+            chart1.Series[0].Points.Clear();
             if (aioDeviceExist)
             {
                 int aioInitState = aio.Init(comboBox1.SelectedItem.ToString(), out devId);
@@ -185,7 +186,7 @@ namespace CameraApp
             {
                 xAxisListBox.Items.Clear();
                 yAxisListBox.Items.Clear();
-                for (int i = 0; i < ch; i++)
+                for (int i = 0; i < ch; ++i)
                 {
                     xAxisListBox.Items.Add(i);
                     yAxisListBox.Items.Add(i);
@@ -309,23 +310,34 @@ namespace CameraApp
         {
             if (loggingStartBtn.Text == "開始")
             {
-                resetAioMem();
-                int aioStartLogging = aio.StartAi(devId);
-                if (aioStartLogging != 0)
+                logModeChk.Enabled = false;
+                if (logModeChk.Checked)
                 {
-                    statusMsg(aioStartLogging, null);
-                    return;
+                    resetAioMem();
+                    int aioStartLogging = aio.StartAi(devId);
+                    if (aioStartLogging != 0)
+                    {
+                        statusMsg(aioStartLogging, null);
+                        return;
+                    }
+                    statusLabel2.Text = "変換を開始しました";
+                    loggingStartBtn.Text = "取得中...";
+                    //timer1.Start();
                 }
-                statusLabel2.Text = "変換を開始しました";
-                loggingStartBtn.Text = "取得中...";
-                //timer1.Start();
+                else
+                {
+                    statusLabel2.Text = "変換を開始しました";
+                    loggingStartBtn.Text = "取得中...";
+                    pcMemoryTimer.Start();
+                }
             }
             else
             {
                 //timer1.Stop();
+                pcMemoryTimer.Stop();
                 loggingStartBtn.Text = "開始";
+                logModeChk.Enabled = true;
             }
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -349,10 +361,29 @@ namespace CameraApp
             aio.GetAiSamplingDataEx(devId, ref a, ref aioVoltData);
             aio.StopAi(devId);
             listBox1.Items.Clear();
-            for (int i = 0; i < a; i++)
+            for (int i = 0; i < a; ++i)
             {
                 listBox1.Items.Add(aioVoltData[i]);
             }
+        }
+
+        private float oneTimeGetData(short id, short ch)
+        {
+            float data = 0;
+            int aioOneTimeLog = aio.SingleAiEx(id, ch, out data);
+            return data;
+        }
+
+        private void pcMemoryTimer_Tick(object sender, EventArgs e)
+        {
+            data2Label.Text = oneTimeGetData(devId, (short)xAxisListBox.SelectedIndex).ToString();
+            data1Label.Text = oneTimeGetData(devId, (short)yAxisListBox.SelectedIndex).ToString();
+            chart1.Series[0].Points.AddXY(data1Label.Text, data2Label.Text);
+        }
+
+        private void csvExport()
+        {
+
         }
     }
 }
