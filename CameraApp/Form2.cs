@@ -18,11 +18,18 @@ namespace CameraApp
         Caio aio = new Caio();
         Boolean form2show = true;
         Boolean aioDeviceExist = false;
+
+        //デバイスリスト
         List<string> devList = new List<string>();
         List<string> devNameList = new List<string>();
 
+        //listBox表示用キュー
+        Queue<string> xQueue = new Queue<string>();
+        Queue<string> yQueue = new Queue<string>();
+
         float[] aioVoltData = new float[10000];
 
+        //デバイスID
         short devId = 0;
 
         public Form2()
@@ -261,11 +268,6 @@ namespace CameraApp
 
         }
 
-        private void drawGraph()
-        {
-
-        }
-
         private void getAioDeviceBtn_Click(object sender, EventArgs e)
         {
             caioGetDevice();
@@ -306,8 +308,10 @@ namespace CameraApp
             testLoggingBtn.Enabled = false;
         }
 
+        //ロギング開始
         private void loggingStartBtn_Click(object sender, EventArgs e)
         {
+            //ラベルで動作を変える
             if (loggingStartBtn.Text == "開始")
             {
                 logModeChk.Enabled = false;
@@ -340,12 +344,6 @@ namespace CameraApp
             }
         }
 
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            int a = 1000;
-            aio.GetAiSamplingDataEx(devId, ref a,ref aioVoltData);
-        }
-
         //とりあえず実装(FIFOで)
         private void testLoggingBtn_Click(object sender, EventArgs e)
         {
@@ -367,6 +365,7 @@ namespace CameraApp
             }
         }
 
+        //簡易取得でデータ取得する
         private float oneTimeGetData(short id, short ch)
         {
             float data = 0;
@@ -374,13 +373,51 @@ namespace CameraApp
             return data;
         }
 
+        //グラフ描画用
         private void pcMemoryTimer_Tick(object sender, EventArgs e)
         {
             data2Label.Text = oneTimeGetData(devId, (short)xAxisListBox.SelectedIndex).ToString();
             data1Label.Text = oneTimeGetData(devId, (short)yAxisListBox.SelectedIndex).ToString();
             chart1.Series[0].Points.AddXY(data1Label.Text, data2Label.Text);
+            queueCtrl(data1Label.Text, data2Label.Text);
         }
 
+        //キューの操作(危険)
+        private void queueCtrl(string x, string y)
+        {
+            if (xQueue.Count > 11)
+            {
+                xQueue.Dequeue();
+            }
+            else if(yQueue.Count > 11)
+            {
+                yQueue.Dequeue();
+            }
+            else
+            {
+                xQueue.Enqueue(x);
+                xQueue.Enqueue(y);
+            }
+            listBoxAdd();
+        }
+
+        private void listBoxAdd()
+        {
+            listBox1.Items.Clear();
+            foreach (string x in xQueue)
+            {
+                listBox1.Items.Add(x);
+            }
+        }
+
+        //内部メモリに貯める
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            int a = 1000;
+            aio.GetAiSamplingDataEx(devId, ref a, ref aioVoltData);
+        }
+
+        //csv出力用
         private void csvExport()
         {
 
