@@ -132,6 +132,10 @@ namespace CameraApp
                     videoSource.Start();
                     statusLabel.Text = "キャプチャ中...";
                     captureBtn.Text = "Running...";
+                    if (loggerChkBox.Checked)
+                    {
+                        //Form2.caioGetDevice();
+                    }
                     capturingTimer.Enabled = true;
                 }
                 else
@@ -150,6 +154,7 @@ namespace CameraApp
                     captureBtn.Text = "キャプチャ";
                 }
             }
+            //Form2.caioGetDevice();
         }
 
         private void setupCam1Btn_Click(object sender, EventArgs e)
@@ -185,6 +190,11 @@ namespace CameraApp
         private void savePicBtn_Click(object sender, EventArgs e)
         {
             saveImage(captureImg, 1);
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

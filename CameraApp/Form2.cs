@@ -23,6 +23,11 @@ namespace CameraApp
         List<string> devList = new List<string>();
         List<string> devNameList = new List<string>();
 
+        //取得電圧データ格納用
+        List<float> xVoltList = new List<float>();
+        List<float> yVoltList = new List<float>();
+        List<string> timeList = new List<string>();
+
         //listBox表示用キュー
         Queue<string> xQueue = new Queue<string>();
         Queue<string> yQueue = new Queue<string>();
@@ -110,7 +115,7 @@ namespace CameraApp
         }
 
         //CAIOデバイスの取得、初期化
-        private void caioGetDevice()
+        public void caioGetDevice()
         {
             devList.Clear();
             devNameList.Clear();
@@ -149,9 +154,8 @@ namespace CameraApp
         }
 
         //デバイスの初期化
-        private void caioInitDevice()
+        public void caioInitDevice()
         {
-            chart1.Series[0].Points.Clear();
             if (aioDeviceExist)
             {
                 int aioInitState = aio.Init(comboBox1.SelectedItem.ToString(), out devId);
@@ -276,6 +280,9 @@ namespace CameraApp
         private void initAioDeviceBtn_Click(object sender, EventArgs e)
         {
             caioInitDevice();
+            chart1.Series[0].Points.Clear();
+            xVoltList.Clear();
+            yVoltList.Clear();
         }
 
         private void Form2_FormClosed(object sender, FormClosedEventArgs e)
@@ -365,6 +372,11 @@ namespace CameraApp
             }
         }
 
+        private void expCsvBtn_Click(object sender, EventArgs e)
+        {
+            csvExport();
+        }
+
         //簡易取得でデータ取得する
         private float oneTimeGetData(short id, short ch)
         {
@@ -376,8 +388,17 @@ namespace CameraApp
         //グラフ描画用
         private void pcMemoryTimer_Tick(object sender, EventArgs e)
         {
-            data2Label.Text = oneTimeGetData(devId, (short)xAxisListBox.SelectedIndex).ToString();
-            data1Label.Text = oneTimeGetData(devId, (short)yAxisListBox.SelectedIndex).ToString();
+            float xData = oneTimeGetData(devId, (short)xAxisListBox.SelectedIndex);
+            float yData = oneTimeGetData(devId, (short)yAxisListBox.SelectedIndex);
+
+            timeList.Add((DateTime.Now).ToString("hh:mm:ss:fff"));
+            
+            data2Label.Text = xData.ToString();
+            data1Label.Text = yData.ToString();
+
+            xVoltList.Add(xData);
+            yVoltList.Add(yData);
+
             chart1.Series[0].Points.AddXY(data1Label.Text, data2Label.Text);
             queueCtrl(data1Label.Text, data2Label.Text);
         }
@@ -420,7 +441,18 @@ namespace CameraApp
         //csv出力用
         private void csvExport()
         {
+            using (var csv = new System.IO.StreamWriter("test.csv", false))
+            {
+                for (int i = 0; i < xVoltList.Count; i++)
+                {
+                    csv.WriteLine(dataConv(i));
+                }
+            }
+        }
 
+        private string dataConv(int i)
+        {
+            return (timeList[i] + "," + xVoltList[i] + "," + yVoltList[i]);
         }
     }
 }

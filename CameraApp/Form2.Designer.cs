@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.logModeChk = new System.Windows.Forms.CheckBox();
@@ -62,6 +62,7 @@
             this.devNameLabel = new System.Windows.Forms.Label();
             this.devMemoryTimer = new System.Windows.Forms.Timer(this.components);
             this.pcMemoryTimer = new System.Windows.Forms.Timer(this.components);
+            this.expCsvBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -70,34 +71,35 @@
             // 
             // chart1
             // 
-            chartArea3.AxisX.LineColor = System.Drawing.Color.DarkGray;
-            chartArea3.AxisX.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
-            chartArea3.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
-            chartArea3.AxisY.LineColor = System.Drawing.Color.DarkGray;
-            chartArea3.AxisY.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
-            chartArea3.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
-            chartArea3.AxisY.MinorGrid.Enabled = true;
-            chartArea3.AxisY.MinorGrid.LineColor = System.Drawing.Color.Gainsboro;
-            chartArea3.BackColor = System.Drawing.Color.White;
-            chartArea3.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea3);
-            legend3.Enabled = false;
-            legend3.Name = "Legend1";
-            this.chart1.Legends.Add(legend3);
+            chartArea1.AxisX.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MinorGrid.Enabled = true;
+            chartArea1.AxisY.MinorGrid.LineColor = System.Drawing.Color.Gainsboro;
+            chartArea1.BackColor = System.Drawing.Color.White;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(12, 247);
             this.chart1.Name = "chart1";
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series3.Color = System.Drawing.Color.Red;
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chart1.Series.Add(series3);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series1.Color = System.Drawing.Color.Red;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(300, 300);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.expCsvBtn);
             this.groupBox1.Controls.Add(this.logModeChk);
             this.groupBox1.Controls.Add(this.testLoggingBtn);
             this.groupBox1.Controls.Add(this.loggingStartBtn);
@@ -386,6 +388,16 @@
             // 
             this.pcMemoryTimer.Tick += new System.EventHandler(this.pcMemoryTimer_Tick);
             // 
+            // expCsvBtn
+            // 
+            this.expCsvBtn.Location = new System.Drawing.Point(6, 134);
+            this.expCsvBtn.Name = "expCsvBtn";
+            this.expCsvBtn.Size = new System.Drawing.Size(75, 23);
+            this.expCsvBtn.TabIndex = 14;
+            this.expCsvBtn.Text = "Export CSV";
+            this.expCsvBtn.UseVisualStyleBackColor = true;
+            this.expCsvBtn.Click += new System.EventHandler(this.expCsvBtn_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -446,5 +458,6 @@
         private System.Windows.Forms.Timer pcMemoryTimer;
         private System.Windows.Forms.Label data2Label;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button expCsvBtn;
     }
 }
