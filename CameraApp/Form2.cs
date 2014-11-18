@@ -318,6 +318,7 @@ namespace CameraApp
         //ロギング開始
         private void loggingStartBtn_Click(object sender, EventArgs e)
         {
+            Form1 mainForm = (Form1)this.Owner;
             //ラベルで動作を変える
             if (loggingStartBtn.Text == "開始")
             {
@@ -341,6 +342,7 @@ namespace CameraApp
                     loggingStartBtn.Text = "取得中...";
                     pcMemoryTimer.Start();
                 }
+                mainForm.logFormData(true);
             }
             else
             {
@@ -348,7 +350,9 @@ namespace CameraApp
                 pcMemoryTimer.Stop();
                 loggingStartBtn.Text = "開始";
                 logModeChk.Enabled = true;
+                mainForm.logFormData(false);
             }
+            //mainForm.statusLabel.Text = "test";
         }
 
         //とりあえず実装(FIFOで)

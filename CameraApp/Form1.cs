@@ -19,13 +19,13 @@ namespace CameraApp
     public partial class Form1 : Form
     {
         private FilterInfoCollection videoDevices;
-        private VideoCaptureDevice videoSource = null;
+        private VideoCaptureDevice videoSource1 = null;
         private bool DeviceExist = false;
         private bool CameraCapturing = false;
-        private Bitmap windowPic = null;
-        Form childForm = new Form2();
 
-        Mat captureImg = new Mat();
+        private Form logForm = new Form2();
+
+        private Mat captureImg = new Mat();
 
         public Form1()
         {
@@ -82,35 +82,33 @@ namespace CameraApp
         //画像表示
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
-            Mat resizedImg = new Mat(Cv.Size(320, 240),MatType.CV_8U);
-            captureImg = eventArgs.Frame.ToMat();
-            Cv2.Resize(captureImg, resizedImg,resizedImg.Size(),1,1,Interpolation.Linear);
-            captureImg.Dispose();
-            windowPic = resizedImg.ToBitmap();
-            resizedImg.Dispose();
-            pictureBox1.Image = (Image)windowPic.Clone();
-            windowPic.Dispose();
+            using (Mat resizedImg = new Mat(Cv.Size(320, 240), MatType.CV_8U))
+            using (captureImg = eventArgs.Frame.ToMat())
+            {
+                Cv2.Resize(captureImg, resizedImg, resizedImg.Size(), 1, 1, Interpolation.Linear);
+                pictureBox1.Image = resizedImg.ToBitmap();
+            }
         }
 
         //リソース開放
         private void CloseVideoSource()
         {
-            if (!(videoSource == null))
+            if (!(videoSource1 == null))
             {
-                if (videoSource.IsRunning)
+                if (videoSource1.IsRunning)
                 {
-                    videoSource.SignalToStop();
-                    videoSource = null;
+                    videoSource1.SignalToStop();
+                    videoSource1 = null;
                 }
             }
         }
 
         //画像の保存
-        private void saveImage(Mat Image,int camIndex)
+        private void saveImage(Mat Image, int camIndex)
         {
             captureBtn_Click(null, null);
             string date = DateTime.Now.ToString("HH/mm/ss,fff");
-            Image.SaveImage(string.Format("{0} - {1}.bmp",camIndex,date));
+            Image.SaveImage(string.Format("{0} - {1}.bmp", camIndex, date));
         }
 
         private void getCamListBtn_Click(object sender, EventArgs e)
@@ -126,16 +124,10 @@ namespace CameraApp
                 if (DeviceExist)
                 {
                     CameraCapturing = true;
-                    videoSource = new VideoCaptureDevice(videoDevices[camList1.SelectedIndex].MonikerString);
-                    videoSource.NewFrame += new NewFrameEventHandler(video_NewFrame);
-                    CloseVideoSource();
-                    videoSource.Start();
+                    //カメラ呼び出し...
+                    camCapture(1);
                     statusLabel.Text = "キャプチャ中...";
                     captureBtn.Text = "Running...";
-                    if (loggerChkBox.Checked)
-                    {
-                        //Form2.caioGetDevice();
-                    }
                     capturingTimer.Enabled = true;
                 }
                 else
@@ -145,7 +137,7 @@ namespace CameraApp
             }
             else
             {
-                if (videoSource.IsRunning)
+                if (videoSource1.IsRunning)
                 {
                     capturingTimer.Enabled = false;
                     CameraCapturing = false;
@@ -154,7 +146,15 @@ namespace CameraApp
                     captureBtn.Text = "キャプチャ";
                 }
             }
-            //Form2.caioGetDevice();
+        }
+
+        //カメラキャプチャ用
+        public void camCapture(int camNum)
+        {
+            videoSource1 = new VideoCaptureDevice(videoDevices[ComboBox(camNum).SelectedIndex].MonikerString);
+            videoSource1.NewFrame += new NewFrameEventHandler(video_NewFrame);
+            CloseVideoSource();
+            videoSource1.Start();
         }
 
         private void setupCam1Btn_Click(object sender, EventArgs e)
@@ -163,27 +163,28 @@ namespace CameraApp
             form2.ShowDialog();
         }
 
+        //フォームが閉じた時
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
             CloseVideoSource();
         }
 
+        //FPS表示
         private void capturingTimer_Tick(object sender, EventArgs e)
         {
-            cam1InfoLabel.Text = videoSource.FramesReceived.ToString() + "FPS";
+            cam1InfoLabel.Text = videoSource1.FramesReceived.ToString() + "FPS";
         }
 
+        //子フォームの表示
         private void loggerChkBox_CheckedChanged(object sender, EventArgs e)
         {
             if (loggerChkBox.Checked)
             {
-                childForm = new Form2();
-                childForm.Owner = this;
-                childForm.Show();
+                logForm.Show(this);
             }
             else
             {
-                childForm.Close();
+                logForm.Close();
             }
         }
 
@@ -192,9 +193,19 @@ namespace CameraApp
             saveImage(captureImg, 1);
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        //form2から呼び出される
+        public void logFormData(bool flag)
         {
-
+            if (flag && CameraCapturing)
+            {
+                captureBtn_Click(null, null);
+                System.Threading.Thread.Sleep(500);
+                captureBtn_Click(null, null);
+            }
+            else
+            {
+                captureBtn_Click(null, null);
+            }
         }
     }
 }

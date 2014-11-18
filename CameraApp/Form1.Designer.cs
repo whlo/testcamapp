@@ -365,7 +365,6 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button getCamListBtn;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Label statusLabel;
         private System.Windows.Forms.Button captureBtn;
         private System.Windows.Forms.Button setupCam1Btn;
         private System.Windows.Forms.Button setupCam2Btn;
@@ -377,6 +376,7 @@
         private System.Windows.Forms.CheckBox loggerChkBox;
         private System.Windows.Forms.Label cam2InfoLabel;
         private System.Windows.Forms.Button savePicBtn;
+        private System.Windows.Forms.Label statusLabel;
     }
 }
 
