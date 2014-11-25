@@ -42,24 +42,30 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.statusLabel = new System.Windows.Forms.Label();
             this.captureBtn = new System.Windows.Forms.Button();
-            this.capturingTimer = new System.Windows.Forms.Timer(this.components);
+            this.fpsTimer = new System.Windows.Forms.Timer(this.components);
             this.cam1InfoLabel = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ファイルToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loggerChkBox = new System.Windows.Forms.CheckBox();
-            this.setupCam3Btn = new System.Windows.Forms.Button();
-            this.setupCam2Btn = new System.Windows.Forms.Button();
-            this.setupCam1Btn = new System.Windows.Forms.Button();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.cam2InfoLabel = new System.Windows.Forms.Label();
             this.savePicBtn = new System.Windows.Forms.Button();
+            this.cam1SaveChk = new System.Windows.Forms.CheckBox();
+            this.cam2SaveChk = new System.Windows.Forms.CheckBox();
+            this.cam3SaveChk = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.saveImgTiming = new System.Windows.Forms.NumericUpDown();
+            this.CaptureTimer = new System.Windows.Forms.Timer(this.components);
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.saveImgTiming)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -94,35 +100,38 @@
             this.camList1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.camList1.DropDownWidth = 400;
             this.camList1.FormattingEnabled = true;
-            this.camList1.Location = new System.Drawing.Point(499, 323);
+            this.camList1.Location = new System.Drawing.Point(485, 339);
             this.camList1.Name = "camList1";
             this.camList1.Size = new System.Drawing.Size(142, 20);
             this.camList1.TabIndex = 6;
+            this.camList1.SelectedIndexChanged += new System.EventHandler(this.camList1_SelectedIndexChanged);
             // 
             // camList2
             // 
             this.camList2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.camList2.DropDownWidth = 400;
             this.camList2.FormattingEnabled = true;
-            this.camList2.Location = new System.Drawing.Point(499, 349);
+            this.camList2.Location = new System.Drawing.Point(485, 365);
             this.camList2.Name = "camList2";
             this.camList2.Size = new System.Drawing.Size(142, 20);
             this.camList2.TabIndex = 7;
+            this.camList2.SelectedIndexChanged += new System.EventHandler(this.camList2_SelectedIndexChanged);
             // 
             // camList3
             // 
             this.camList3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.camList3.DropDownWidth = 400;
             this.camList3.FormattingEnabled = true;
-            this.camList3.Location = new System.Drawing.Point(499, 375);
+            this.camList3.Location = new System.Drawing.Point(485, 391);
             this.camList3.Name = "camList3";
             this.camList3.Size = new System.Drawing.Size(142, 20);
             this.camList3.TabIndex = 8;
+            this.camList3.SelectedIndexChanged += new System.EventHandler(this.camList3_SelectedIndexChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(458, 326);
+            this.label4.Location = new System.Drawing.Point(444, 342);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(36, 12);
             this.label4.TabIndex = 9;
@@ -131,7 +140,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(458, 352);
+            this.label5.Location = new System.Drawing.Point(444, 368);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(36, 12);
             this.label5.TabIndex = 10;
@@ -140,7 +149,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(458, 378);
+            this.label6.Location = new System.Drawing.Point(444, 394);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(36, 12);
             this.label6.TabIndex = 11;
@@ -148,7 +157,7 @@
             // 
             // getCamListBtn
             // 
-            this.getCamListBtn.Location = new System.Drawing.Point(377, 347);
+            this.getCamListBtn.Location = new System.Drawing.Point(363, 363);
             this.getCamListBtn.Name = "getCamListBtn";
             this.getCamListBtn.Size = new System.Drawing.Size(75, 23);
             this.getCamListBtn.TabIndex = 12;
@@ -177,7 +186,7 @@
             // 
             // captureBtn
             // 
-            this.captureBtn.Location = new System.Drawing.Point(377, 404);
+            this.captureBtn.Location = new System.Drawing.Point(363, 420);
             this.captureBtn.Name = "captureBtn";
             this.captureBtn.Size = new System.Drawing.Size(75, 23);
             this.captureBtn.TabIndex = 14;
@@ -185,10 +194,10 @@
             this.captureBtn.UseVisualStyleBackColor = true;
             this.captureBtn.Click += new System.EventHandler(this.captureBtn_Click);
             // 
-            // capturingTimer
+            // fpsTimer
             // 
-            this.capturingTimer.Interval = 1000;
-            this.capturingTimer.Tick += new System.EventHandler(this.capturingTimer_Tick);
+            this.fpsTimer.Interval = 1000;
+            this.fpsTimer.Tick += new System.EventHandler(this.capturingTimer_Tick);
             // 
             // cam1InfoLabel
             // 
@@ -220,41 +229,13 @@
             // loggerChkBox
             // 
             this.loggerChkBox.AutoSize = true;
-            this.loggerChkBox.Location = new System.Drawing.Point(377, 471);
+            this.loggerChkBox.Location = new System.Drawing.Point(363, 487);
             this.loggerChkBox.Name = "loggerChkBox";
             this.loggerChkBox.Size = new System.Drawing.Size(82, 16);
             this.loggerChkBox.TabIndex = 20;
             this.loggerChkBox.Text = "DataLogger";
             this.loggerChkBox.UseVisualStyleBackColor = true;
             this.loggerChkBox.CheckedChanged += new System.EventHandler(this.loggerChkBox_CheckedChanged);
-            // 
-            // setupCam3Btn
-            // 
-            this.setupCam3Btn.Image = global::CameraApp.Properties.Resources.gear_16xLG;
-            this.setupCam3Btn.Location = new System.Drawing.Point(647, 373);
-            this.setupCam3Btn.Name = "setupCam3Btn";
-            this.setupCam3Btn.Size = new System.Drawing.Size(25, 25);
-            this.setupCam3Btn.TabIndex = 17;
-            this.setupCam3Btn.UseVisualStyleBackColor = true;
-            // 
-            // setupCam2Btn
-            // 
-            this.setupCam2Btn.Image = global::CameraApp.Properties.Resources.gear_16xLG;
-            this.setupCam2Btn.Location = new System.Drawing.Point(647, 347);
-            this.setupCam2Btn.Name = "setupCam2Btn";
-            this.setupCam2Btn.Size = new System.Drawing.Size(25, 25);
-            this.setupCam2Btn.TabIndex = 16;
-            this.setupCam2Btn.UseVisualStyleBackColor = true;
-            // 
-            // setupCam1Btn
-            // 
-            this.setupCam1Btn.Image = global::CameraApp.Properties.Resources.gear_16xLG;
-            this.setupCam1Btn.Location = new System.Drawing.Point(647, 320);
-            this.setupCam1Btn.Name = "setupCam1Btn";
-            this.setupCam1Btn.Size = new System.Drawing.Size(25, 25);
-            this.setupCam1Btn.TabIndex = 15;
-            this.setupCam1Btn.UseVisualStyleBackColor = true;
-            this.setupCam1Btn.Click += new System.EventHandler(this.setupCam1Btn_Click);
             // 
             // pictureBox3
             // 
@@ -282,7 +263,6 @@
             this.pictureBox1.Size = new System.Drawing.Size(320, 240);
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
-            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // cam2InfoLabel
             // 
@@ -296,26 +276,117 @@
             // 
             // savePicBtn
             // 
-            this.savePicBtn.Location = new System.Drawing.Point(534, 404);
+            this.savePicBtn.Location = new System.Drawing.Point(560, 420);
             this.savePicBtn.Name = "savePicBtn";
-            this.savePicBtn.Size = new System.Drawing.Size(75, 23);
+            this.savePicBtn.Size = new System.Drawing.Size(67, 23);
             this.savePicBtn.TabIndex = 22;
-            this.savePicBtn.Text = "画像の保存";
+            this.savePicBtn.Text = "1timeSave";
             this.savePicBtn.UseVisualStyleBackColor = true;
             this.savePicBtn.Click += new System.EventHandler(this.savePicBtn_Click);
+            // 
+            // cam1SaveChk
+            // 
+            this.cam1SaveChk.AutoSize = true;
+            this.cam1SaveChk.Location = new System.Drawing.Point(638, 342);
+            this.cam1SaveChk.Name = "cam1SaveChk";
+            this.cam1SaveChk.Size = new System.Drawing.Size(15, 14);
+            this.cam1SaveChk.TabIndex = 24;
+            this.cam1SaveChk.UseVisualStyleBackColor = true;
+            // 
+            // cam2SaveChk
+            // 
+            this.cam2SaveChk.AutoSize = true;
+            this.cam2SaveChk.Location = new System.Drawing.Point(638, 368);
+            this.cam2SaveChk.Name = "cam2SaveChk";
+            this.cam2SaveChk.Size = new System.Drawing.Size(15, 14);
+            this.cam2SaveChk.TabIndex = 25;
+            this.cam2SaveChk.UseVisualStyleBackColor = true;
+            // 
+            // cam3SaveChk
+            // 
+            this.cam3SaveChk.AutoSize = true;
+            this.cam3SaveChk.Location = new System.Drawing.Point(638, 394);
+            this.cam3SaveChk.Name = "cam3SaveChk";
+            this.cam3SaveChk.Size = new System.Drawing.Size(15, 14);
+            this.cam3SaveChk.TabIndex = 26;
+            this.cam3SaveChk.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(631, 323);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(29, 12);
+            this.label7.TabIndex = 27;
+            this.label7.Text = "保存";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(451, 425);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(29, 12);
+            this.label8.TabIndex = 28;
+            this.label8.Text = "間隔";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(536, 425);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(20, 12);
+            this.label9.TabIndex = 29;
+            this.label9.Text = "ms";
+            // 
+            // saveImgTiming
+            // 
+            this.saveImgTiming.Increment = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.saveImgTiming.Location = new System.Drawing.Point(485, 423);
+            this.saveImgTiming.Maximum = new decimal(new int[] {
+            10000,
+            0,
+            0,
+            0});
+            this.saveImgTiming.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            this.saveImgTiming.Name = "saveImgTiming";
+            this.saveImgTiming.Size = new System.Drawing.Size(52, 19);
+            this.saveImgTiming.TabIndex = 30;
+            this.saveImgTiming.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.saveImgTiming.UpDownAlign = System.Windows.Forms.LeftRightAlignment.Left;
+            this.saveImgTiming.Value = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            // 
+            // CaptureTimer
+            // 
+            this.CaptureTimer.Tick += new System.EventHandler(this.CaptureTimer_Tick);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 621);
+            this.Controls.Add(this.saveImgTiming);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.cam3SaveChk);
+            this.Controls.Add(this.cam2SaveChk);
+            this.Controls.Add(this.cam1SaveChk);
             this.Controls.Add(this.savePicBtn);
             this.Controls.Add(this.cam2InfoLabel);
             this.Controls.Add(this.loggerChkBox);
             this.Controls.Add(this.cam1InfoLabel);
-            this.Controls.Add(this.setupCam3Btn);
-            this.Controls.Add(this.setupCam2Btn);
-            this.Controls.Add(this.setupCam1Btn);
             this.Controls.Add(this.captureBtn);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.getCamListBtn);
@@ -335,7 +406,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "統合処理";
+            this.Text = "カメラ";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -344,6 +415,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.saveImgTiming)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -366,10 +438,7 @@
         private System.Windows.Forms.Button getCamListBtn;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button captureBtn;
-        private System.Windows.Forms.Button setupCam1Btn;
-        private System.Windows.Forms.Button setupCam2Btn;
-        private System.Windows.Forms.Button setupCam3Btn;
-        private System.Windows.Forms.Timer capturingTimer;
+        private System.Windows.Forms.Timer fpsTimer;
         private System.Windows.Forms.Label cam1InfoLabel;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem ファイルToolStripMenuItem;
@@ -377,6 +446,14 @@
         private System.Windows.Forms.Label cam2InfoLabel;
         private System.Windows.Forms.Button savePicBtn;
         private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.CheckBox cam1SaveChk;
+        private System.Windows.Forms.CheckBox cam2SaveChk;
+        private System.Windows.Forms.CheckBox cam3SaveChk;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.NumericUpDown saveImgTiming;
+        private System.Windows.Forms.Timer CaptureTimer;
     }
 }
 

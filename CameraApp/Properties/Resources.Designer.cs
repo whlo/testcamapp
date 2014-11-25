@@ -59,15 +59,5 @@ namespace CameraApp.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
-        /// </summary>
-        internal static System.Drawing.Bitmap gear_16xLG {
-            get {
-                object obj = ResourceManager.GetObject("gear_16xLG", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }
