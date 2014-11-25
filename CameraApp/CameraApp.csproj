@@ -134,6 +134,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\..\..\Program Files %28x86%29\CONTEC\API-USBP%28WDM%29\Aio\Samples\Inc\CaioCs.cs">
+      <Link>CaioCs.cs</Link>
+    </Compile>
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
