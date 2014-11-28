@@ -34,6 +34,7 @@
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.expCsvBtn = new System.Windows.Forms.Button();
             this.logModeChk = new System.Windows.Forms.CheckBox();
             this.testLoggingBtn = new System.Windows.Forms.Button();
             this.loggingStartBtn = new System.Windows.Forms.Button();
@@ -62,7 +63,6 @@
             this.devNameLabel = new System.Windows.Forms.Label();
             this.devMemoryTimer = new System.Windows.Forms.Timer(this.components);
             this.pcMemoryTimer = new System.Windows.Forms.Timer(this.components);
-            this.expCsvBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -117,6 +117,16 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "データボード処理";
+            // 
+            // expCsvBtn
+            // 
+            this.expCsvBtn.Location = new System.Drawing.Point(6, 134);
+            this.expCsvBtn.Name = "expCsvBtn";
+            this.expCsvBtn.Size = new System.Drawing.Size(75, 23);
+            this.expCsvBtn.TabIndex = 14;
+            this.expCsvBtn.Text = "Export CSV";
+            this.expCsvBtn.UseVisualStyleBackColor = true;
+            this.expCsvBtn.Click += new System.EventHandler(this.expCsvBtn_Click);
             // 
             // logModeChk
             // 
@@ -387,16 +397,6 @@
             // pcMemoryTimer
             // 
             this.pcMemoryTimer.Tick += new System.EventHandler(this.pcMemoryTimer_Tick);
-            // 
-            // expCsvBtn
-            // 
-            this.expCsvBtn.Location = new System.Drawing.Point(6, 134);
-            this.expCsvBtn.Name = "expCsvBtn";
-            this.expCsvBtn.Size = new System.Drawing.Size(75, 23);
-            this.expCsvBtn.TabIndex = 14;
-            this.expCsvBtn.Text = "Export CSV";
-            this.expCsvBtn.UseVisualStyleBackColor = true;
-            this.expCsvBtn.Click += new System.EventHandler(this.expCsvBtn_Click);
             // 
             // Form2
             // 

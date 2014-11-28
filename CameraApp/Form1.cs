@@ -19,7 +19,6 @@ namespace CameraApp
     public partial class Form1 : Form
     {
         private FilterInfoCollection videoDevices;
-        private VideoCaptureDevice videoSource1 = null;
         private bool DeviceExist = false;
         private bool CameraCapturing = false;
 
@@ -61,13 +60,13 @@ namespace CameraApp
                 //カメラが存在するとき、コンボボックスにデバイス名を追加
                 foreach (FilterInfo device in videoDevices)
                 {
-                    for (int i = 1; i < videoDevices.Count + 1; i++)   
+                    for (int i = 1; i < 3 + 1; i++)
                     {
                         ComboBox(i).Items.Add(device.Name + " | (" + device.MonikerString + ")");    
                     }
                 }
                 //初期選択項目を指定する
-                for (int i = 1; i < videoDevices.Count + 1; i++)
+                for (int i = 1; i < 2 + 1; i++)
                 {
                     ComboBox(i).SelectedIndex = i;
                 }
@@ -84,12 +83,27 @@ namespace CameraApp
         }
 
         //カメラキャプチャ用
-        public void camCapture(int camNum)
+        public void camCapture()
         {
-            videoSource1 = new VideoCaptureDevice(videoDevices[ComboBox(camNum).SelectedIndex - 1].MonikerString);
-            videoSource1.NewFrame += new NewFrameEventHandler(video_NewFrame);
-            CloseVideoSource();
-            videoSource1.Start();
+            if (camList1.SelectedIndex != 0)
+            {
+                VideoCaptureDevice videoSource1 = new VideoCaptureDevice(videoDevices[camList1.SelectedIndex - 1].MonikerString);
+                videoSourcePlayer1.VideoSource = videoSource1;
+                videoSourcePlayer1.Start();
+            }
+            if (camList2.SelectedIndex != 0)
+            {
+                VideoCaptureDevice videoSource2 = new VideoCaptureDevice(videoDevices[camList2.SelectedIndex - 1].MonikerString);
+                videoSourcePlayer2.VideoSource = videoSource2;
+                videoSourcePlayer2.Start();
+            }
+            if (camList3.SelectedIndex != 0)
+            {
+                VideoCaptureDevice videoSource3 = new VideoCaptureDevice(videoDevices[camList3.SelectedIndex - 1].MonikerString);
+                videoSourcePlayer3.VideoSource = videoSource3;
+                videoSourcePlayer3.Start();
+            }
+            CameraCapturing = true;
         }
 
         //キャプチャ実行
@@ -101,7 +115,7 @@ namespace CameraApp
                 {
                     CameraCapturing = true;
                     //カメラ呼び出し...
-                    camCapture(1);
+                    camCapture();
                     statusLabel.Text = "キャプチャ中...";
                     captureBtn.Text = "Running...";
                     fpsTimer.Enabled = true;
@@ -116,39 +130,22 @@ namespace CameraApp
             }
             else
             {
-                if (videoSource1.IsRunning)
+                if (CameraCapturing)
                 {
                     fpsTimer.Enabled = false;
                     CaptureTimer.Enabled = false;
                     saveImgTiming.Enabled = true;
                     CameraCapturing = false;
-                    CloseVideoSource();
+                    videoSourcePlayer1.SignalToStop();
+                    videoSourcePlayer2.SignalToStop();
+                    videoSourcePlayer3.SignalToStop();
+
+                    videoSourcePlayer1.WaitForStop();
+                    videoSourcePlayer2.WaitForStop();
+                    videoSourcePlayer3.WaitForStop();
+
                     statusLabel.Text = "停止しました。";
                     captureBtn.Text = "キャプチャ";
-                }
-            }
-        }
-
-        //画像表示
-        private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
-        {
-            using (Mat resizedImg = new Mat(Cv.Size(320, 240), MatType.CV_8U))
-            {
-                captureImg = eventArgs.Frame.ToMat();
-                Cv2.Resize(captureImg, resizedImg, resizedImg.Size(), 1, 1, Interpolation.Linear);
-                pictureBox1.Image = resizedImg.ToBitmap();
-            }
-        }
-
-        //リソース開放
-        private void CloseVideoSource()
-        {
-            if (!(videoSource1 == null))
-            {
-                if (videoSource1.IsRunning)
-                {
-                    videoSource1.SignalToStop();
-                    videoSource1 = null;
                 }
             }
         }
@@ -174,13 +171,13 @@ namespace CameraApp
         //フォームが閉じた時
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
-            CloseVideoSource();
+            //CloseVideoSource();
         }
 
         //FPS表示
         private void capturingTimer_Tick(object sender, EventArgs e)
         {
-            cam1InfoLabel.Text = videoSource1.FramesReceived.ToString() + "FPS";
+            //cam1InfoLabel.Text = videoSourcePlayer1.GetCurrentVideoFrame() + "FPS";
         }
 
         //子フォームの表示
@@ -219,17 +216,18 @@ namespace CameraApp
         {
             string date = DateTime.Now.ToString("HH mm ss,fff");
             Image.SaveImage(string.Format("{0} - {1}.bmp", camIndex, date));
-            captureImg.Dispose();
         }
 
         private void savePicBtn_Click(object sender, EventArgs e)
         {
-            saveImage(captureImg, 1);
+            if (cam1SaveChk.Checked) saveImage(captureImg, 1);
+            if (cam2SaveChk.Checked) saveImage(captureImg, 2);
+            if (cam3SaveChk.Checked) saveImage(captureImg, 3);
         }
 
         private void CaptureTimer_Tick(object sender, EventArgs e)
         {
-            saveImage(captureImg, 1);
+            //saveImage(captureImg, 1);
         }
         /*
          * 画像の保存ここまで

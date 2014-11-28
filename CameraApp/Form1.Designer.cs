@@ -47,9 +47,6 @@
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.ファイルToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loggerChkBox = new System.Windows.Forms.CheckBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.cam2InfoLabel = new System.Windows.Forms.Label();
             this.savePicBtn = new System.Windows.Forms.Button();
             this.cam1SaveChk = new System.Windows.Forms.CheckBox();
@@ -60,11 +57,11 @@
             this.label9 = new System.Windows.Forms.Label();
             this.saveImgTiming = new System.Windows.Forms.NumericUpDown();
             this.CaptureTimer = new System.Windows.Forms.Timer(this.components);
+            this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
+            this.videoSourcePlayer2 = new AForge.Controls.VideoSourcePlayer();
+            this.videoSourcePlayer3 = new AForge.Controls.VideoSourcePlayer();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.saveImgTiming)).BeginInit();
             this.SuspendLayout();
             // 
@@ -237,33 +234,6 @@
             this.loggerChkBox.UseVisualStyleBackColor = true;
             this.loggerChkBox.CheckedChanged += new System.EventHandler(this.loggerChkBox_CheckedChanged);
             // 
-            // pictureBox3
-            // 
-            this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox3.Location = new System.Drawing.Point(12, 307);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(320, 240);
-            this.pictureBox3.TabIndex = 2;
-            this.pictureBox3.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox2.Location = new System.Drawing.Point(352, 49);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(320, 240);
-            this.pictureBox2.TabIndex = 1;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(12, 49);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(320, 240);
-            this.pictureBox1.TabIndex = 0;
-            this.pictureBox1.TabStop = false;
-            // 
             // cam2InfoLabel
             // 
             this.cam2InfoLabel.AutoSize = true;
@@ -371,11 +341,41 @@
             // 
             this.CaptureTimer.Tick += new System.EventHandler(this.CaptureTimer_Tick);
             // 
+            // videoSourcePlayer1
+            // 
+            this.videoSourcePlayer1.Location = new System.Drawing.Point(14, 49);
+            this.videoSourcePlayer1.Name = "videoSourcePlayer1";
+            this.videoSourcePlayer1.Size = new System.Drawing.Size(320, 240);
+            this.videoSourcePlayer1.TabIndex = 31;
+            this.videoSourcePlayer1.Text = "videoSourcePlayer1";
+            this.videoSourcePlayer1.VideoSource = null;
+            // 
+            // videoSourcePlayer2
+            // 
+            this.videoSourcePlayer2.Location = new System.Drawing.Point(352, 49);
+            this.videoSourcePlayer2.Name = "videoSourcePlayer2";
+            this.videoSourcePlayer2.Size = new System.Drawing.Size(320, 240);
+            this.videoSourcePlayer2.TabIndex = 32;
+            this.videoSourcePlayer2.Text = "videoSourcePlayer2";
+            this.videoSourcePlayer2.VideoSource = null;
+            // 
+            // videoSourcePlayer3
+            // 
+            this.videoSourcePlayer3.Location = new System.Drawing.Point(14, 307);
+            this.videoSourcePlayer3.Name = "videoSourcePlayer3";
+            this.videoSourcePlayer3.Size = new System.Drawing.Size(320, 240);
+            this.videoSourcePlayer3.TabIndex = 33;
+            this.videoSourcePlayer3.Text = "videoSourcePlayer3";
+            this.videoSourcePlayer3.VideoSource = null;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 621);
+            this.Controls.Add(this.videoSourcePlayer3);
+            this.Controls.Add(this.videoSourcePlayer2);
+            this.Controls.Add(this.videoSourcePlayer1);
             this.Controls.Add(this.saveImgTiming);
             this.Controls.Add(this.label9);
             this.Controls.Add(this.label8);
@@ -399,9 +399,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.pictureBox3);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
@@ -412,9 +409,6 @@
             this.groupBox1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.saveImgTiming)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -423,9 +417,6 @@
 
         #endregion
 
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
@@ -454,6 +445,9 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.NumericUpDown saveImgTiming;
         private System.Windows.Forms.Timer CaptureTimer;
+        private AForge.Controls.VideoSourcePlayer videoSourcePlayer1;
+        private AForge.Controls.VideoSourcePlayer videoSourcePlayer2;
+        private AForge.Controls.VideoSourcePlayer videoSourcePlayer3;
     }
 }
 
