@@ -10,9 +10,6 @@ using System.Windows.Forms;
 
 using AForge.Video;
 using AForge.Video.DirectShow;
-using OpenCvSharp;
-using OpenCvSharp.Extensions;
-using OpenCvSharp.CPlusPlus;
 
 namespace CameraApp
 {
@@ -22,9 +19,9 @@ namespace CameraApp
         private bool DeviceExist = false;
         private bool CameraCapturing = false;
 
-        private Form logForm = new Form2();
+        string filepath = Environment.CurrentDirectory;
 
-        private Mat captureImg = new Mat();
+        private Form logForm = new Form2();
 
         public Form1()
         {
@@ -66,7 +63,7 @@ namespace CameraApp
                     }
                 }
                 //初期選択項目を指定する
-                for (int i = 1; i < 2 + 1; i++)
+                for (int i = 1; i < 3 + 1; i++)
                 {
                     ComboBox(i).SelectedIndex = i;
                 }
@@ -212,22 +209,29 @@ namespace CameraApp
         /*
          * 画像の保存ここから
         */
-        private void saveImage(Mat Image, int camIndex)
-        {
-            string date = DateTime.Now.ToString("HH mm ss,fff");
-            Image.SaveImage(string.Format("{0} - {1}.bmp", camIndex, date));
-        }
-
         private void savePicBtn_Click(object sender, EventArgs e)
         {
-            if (cam1SaveChk.Checked) saveImage(captureImg, 1);
-            if (cam2SaveChk.Checked) saveImage(captureImg, 2);
-            if (cam3SaveChk.Checked) saveImage(captureImg, 3);
+            if (cam1SaveChk.Checked) saveFile(videoSourcePlayer1.GetCurrentVideoFrame(), 1);
+            if (cam2SaveChk.Checked) saveFile(videoSourcePlayer2.GetCurrentVideoFrame(), 2);
+            if (cam3SaveChk.Checked) saveFile(videoSourcePlayer3.GetCurrentVideoFrame(), 3);
+        }
+
+        private void saveFile(Bitmap bmpImg, int camIndex)
+        {
+            string date = DateTime.Now.ToString("HH mm ss,fff");
+            string fileName = System.IO.Path.Combine(filepath, string.Format(@"test\{0} - cam{1}.bmp", date, camIndex));
+            if (bmpImg != null)
+            {
+                bmpImg.Save(fileName);
+                bmpImg.Dispose();
+            }
         }
 
         private void CaptureTimer_Tick(object sender, EventArgs e)
         {
-            //saveImage(captureImg, 1);
+            if (cam1SaveChk.Checked && videoSourcePlayer1.IsRunning) saveFile(videoSourcePlayer1.GetCurrentVideoFrame(), 1);
+            if (cam2SaveChk.Checked && videoSourcePlayer2.IsRunning) saveFile(videoSourcePlayer2.GetCurrentVideoFrame(), 2);
+            if (cam3SaveChk.Checked && videoSourcePlayer3.IsRunning) saveFile(videoSourcePlayer3.GetCurrentVideoFrame(), 3);
         }
         /*
          * 画像の保存ここまで
@@ -243,7 +247,7 @@ namespace CameraApp
             }
             else
             {
-                CheckBox(index).Checked = true;
+                //CheckBox(index).Checked = true;
                 CheckBox(index).Enabled = true;
             }
         }

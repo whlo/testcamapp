@@ -332,7 +332,7 @@
             this.saveImgTiming.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.saveImgTiming.UpDownAlign = System.Windows.Forms.LeftRightAlignment.Left;
             this.saveImgTiming.Value = new decimal(new int[] {
-            100,
+            1000,
             0,
             0,
             0});
