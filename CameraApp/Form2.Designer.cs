@@ -392,7 +392,7 @@
             // 
             // devMemoryTimer
             // 
-            this.devMemoryTimer.Tick += new System.EventHandler(this.timer1_Tick);
+            this.devMemoryTimer.Tick += new System.EventHandler(this.devMemoryTimer_Tick);
             // 
             // pcMemoryTimer
             // 

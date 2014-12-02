@@ -57,7 +57,7 @@ namespace CameraApp
         }
 
         //位置追従
-        public void formLocation()
+        private void formLocation()
         {
             if (form2show && followFormChk.Checked)
             {
@@ -115,7 +115,7 @@ namespace CameraApp
         }
 
         //CAIOデバイスの取得、初期化
-        public void caioGetDevice()
+        private void caioGetDevice()
         {
             devList.Clear();
             devNameList.Clear();
@@ -154,7 +154,7 @@ namespace CameraApp
         }
 
         //デバイスの初期化
-        public void caioInitDevice()
+        private void caioInitDevice()
         {
             if (aioDeviceExist)
             {
@@ -214,7 +214,7 @@ namespace CameraApp
         private void setLogger()
         {
             //使用チャンネル数(1～2)
-            int aioCh = aio.SetAiChannels(devId, 1);
+            int aioCh = aio.SetAiChannels(devId, 2);
             if (aioCh != 0)
             {
                 statusMsg(aioCh, null);
@@ -404,7 +404,14 @@ namespace CameraApp
             yVoltList.Add(yData);
 
             chart1.Series[0].Points.AddXY(data1Label.Text, data2Label.Text);
-            queueCtrl(data1Label.Text, data2Label.Text);
+            //queueCtrl(data1Label.Text, data2Label.Text);
+        }
+
+        //内部メモリに貯める
+        private void devMemoryTimer_Tick(object sender, EventArgs e)
+        {
+            int a = 1000;
+            aio.GetAiSamplingDataEx(devId, ref a, ref aioVoltData);
         }
 
         //キューの操作(危険)
@@ -433,13 +440,6 @@ namespace CameraApp
             {
                 listBox1.Items.Add(x);
             }
-        }
-
-        //内部メモリに貯める
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            int a = 1000;
-            aio.GetAiSamplingDataEx(devId, ref a, ref aioVoltData);
         }
 
         //csv出力用

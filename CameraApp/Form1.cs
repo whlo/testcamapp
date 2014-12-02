@@ -218,7 +218,7 @@ namespace CameraApp
 
         private void saveFile(Bitmap bmpImg, int camIndex)
         {
-            string date = DateTime.Now.ToString("HH mm ss,fff");
+            string date = DateTime.Now.ToString("HH-mm-ss,fff");
             string fileName = System.IO.Path.Combine(filepath, string.Format(@"test\{0} - cam{1}.bmp", date, camIndex));
             if (bmpImg != null)
             {
@@ -247,7 +247,7 @@ namespace CameraApp
             }
             else
             {
-                //CheckBox(index).Checked = true;
+                CheckBox(index).Checked = true;
                 CheckBox(index).Enabled = true;
             }
         }
