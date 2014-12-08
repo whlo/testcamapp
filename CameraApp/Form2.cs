@@ -81,7 +81,7 @@ namespace CameraApp
         }
 
         //ステータスメッセージ表示
-        private void statusMsg(int state,string msg)
+        private void statusMsg(int state, string msg)
         {
             if (msg == null)//nullならcaio絡みのメッセージとする
             {
@@ -222,7 +222,7 @@ namespace CameraApp
             }
 
             //メモリ格納形式(FIFO固定)
-            int aioMem = aio.SetAiMemoryType(devId,0);
+            int aioMem = aio.SetAiMemoryType(devId, 0);
             if (aioMem != 0)
             {
                 statusMsg(aioMem, null);
@@ -251,7 +251,7 @@ namespace CameraApp
                 statusMsg(aioStartTrg, null);
                 return;
             }
-            
+
             //停止条件(SW側)
             int aioStopTrg = aio.SetAiStopTrigger(devId, 0);
             if (aioStopTrg != 0)
@@ -322,34 +322,22 @@ namespace CameraApp
             //ラベルで動作を変える
             if (loggingStartBtn.Text == "開始")
             {
-                logModeChk.Enabled = false;
-                if (logModeChk.Checked)
+                resetAioMem();
+                int aioStartLogging = aio.StartAi(devId);
+                if (aioStartLogging != 0)
                 {
-                    resetAioMem();
-                    int aioStartLogging = aio.StartAi(devId);
-                    if (aioStartLogging != 0)
-                    {
-                        statusMsg(aioStartLogging, null);
-                        return;
-                    }
-                    statusLabel2.Text = "変換を開始しました";
-                    loggingStartBtn.Text = "取得中...";
-                    //timer1.Start();
+                    statusMsg(aioStartLogging, null);
+                    return;
                 }
-                else
-                {
-                    statusLabel2.Text = "変換を開始しました";
-                    loggingStartBtn.Text = "取得中...";
-                    pcMemoryTimer.Start();
-                }
+                statusLabel2.Text = "変換を開始しました";
+                loggingStartBtn.Text = "取得中...";
+                devMemoryTimer.Start();
                 mainForm.logFormData(true);
             }
             else
             {
-                //timer1.Stop();
-                pcMemoryTimer.Stop();
+                devMemoryTimer.Stop();
                 loggingStartBtn.Text = "開始";
-                logModeChk.Enabled = true;
                 mainForm.logFormData(false);
             }
             //mainForm.statusLabel.Text = "test";
@@ -396,7 +384,7 @@ namespace CameraApp
             float yData = oneTimeGetData(devId, (short)yAxisListBox.SelectedIndex);
 
             timeList.Add((DateTime.Now).ToString("hh:mm:ss:fff"));
-            
+
             data2Label.Text = xData.ToString();
             data1Label.Text = yData.ToString();
 
@@ -421,7 +409,7 @@ namespace CameraApp
             {
                 xQueue.Dequeue();
             }
-            else if(yQueue.Count > 11)
+            else if (yQueue.Count > 11)
             {
                 yQueue.Dequeue();
             }
