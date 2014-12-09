@@ -21,7 +21,7 @@ namespace CameraApp
 
         string filepath = Environment.CurrentDirectory;
 
-        private Form logForm = new Form2();
+        Form logForm = new Form2();
 
         public Form1()
         {
@@ -182,6 +182,8 @@ namespace CameraApp
         {
             if (loggerChkBox.Checked)
             {
+                logForm = new Form2();
+                logForm.Owner = this;
                 logForm.Show(this);
             }
             else

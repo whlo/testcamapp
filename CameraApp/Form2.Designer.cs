@@ -54,6 +54,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.forceResetBtn = new System.Windows.Forms.Button();
             this.data2Label = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.data1Label = new System.Windows.Forms.Label();
@@ -61,6 +62,9 @@
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.devNameLabel = new System.Windows.Forms.Label();
             this.devMemoryTimer = new System.Windows.Forms.Timer(this.components);
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.devStLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -257,10 +261,10 @@
             // 
             // statusLabel2
             // 
-            this.statusLabel2.AutoSize = true;
+            this.statusLabel2.AutoEllipsis = true;
             this.statusLabel2.Location = new System.Drawing.Point(6, 15);
             this.statusLabel2.Name = "statusLabel2";
-            this.statusLabel2.Size = new System.Drawing.Size(76, 12);
+            this.statusLabel2.Size = new System.Drawing.Size(288, 35);
             this.statusLabel2.TabIndex = 0;
             this.statusLabel2.Text = "停止しています";
             // 
@@ -299,12 +303,16 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(6, 69);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(57, 12);
+            this.label6.Size = new System.Drawing.Size(59, 12);
             this.label6.TabIndex = 10;
-            this.label6.Text = "動作モード";
+            this.label6.Text = "動作状態 :";
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.devStLabel);
+            this.groupBox3.Controls.Add(this.label9);
+            this.groupBox3.Controls.Add(this.textBox1);
+            this.groupBox3.Controls.Add(this.forceResetBtn);
             this.groupBox3.Controls.Add(this.data2Label);
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.data1Label);
@@ -321,6 +329,16 @@
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "データボード詳細設定";
+            // 
+            // forceResetBtn
+            // 
+            this.forceResetBtn.Location = new System.Drawing.Point(139, 554);
+            this.forceResetBtn.Name = "forceResetBtn";
+            this.forceResetBtn.Size = new System.Drawing.Size(75, 23);
+            this.forceResetBtn.TabIndex = 17;
+            this.forceResetBtn.Text = "ForceReset";
+            this.forceResetBtn.UseVisualStyleBackColor = true;
+            this.forceResetBtn.Click += new System.EventHandler(this.forceResetBtn_Click);
             // 
             // data2Label
             // 
@@ -363,9 +381,9 @@
             this.listBox1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(8, 154);
+            this.listBox1.Location = new System.Drawing.Point(8, 441);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(74, 304);
+            this.listBox1.Size = new System.Drawing.Size(59, 136);
             this.listBox1.TabIndex = 12;
             // 
             // devNameLabel
@@ -381,6 +399,31 @@
             // 
             this.devMemoryTimer.Tick += new System.EventHandler(this.devMemoryTimer_Tick);
             // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(94, 153);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(100, 19);
+            this.textBox1.TabIndex = 18;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 156);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(82, 12);
+            this.label9.TabIndex = 19;
+            this.label9.Text = "サンプリング速度";
+            // 
+            // devStLabel
+            // 
+            this.devStLabel.AutoSize = true;
+            this.devStLabel.Location = new System.Drawing.Point(105, 69);
+            this.devStLabel.Name = "devStLabel";
+            this.devStLabel.Size = new System.Drawing.Size(9, 12);
+            this.devStLabel.TabIndex = 20;
+            this.devStLabel.Text = " ";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -395,13 +438,13 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Form2";
             this.Text = "DataLogger";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form2_FormClosed);
             this.Load += new System.EventHandler(this.Form2_Load);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
@@ -440,5 +483,9 @@
         private System.Windows.Forms.Label data2Label;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button expCsvBtn;
+        private System.Windows.Forms.Button forceResetBtn;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label devStLabel;
     }
 }
