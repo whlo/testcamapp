@@ -443,11 +443,11 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.NumericUpDown saveImgTiming;
         private System.Windows.Forms.Timer CaptureTimer;
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer1;
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer2;
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer3;
+        protected System.Windows.Forms.NumericUpDown saveImgTiming;
     }
 }
 

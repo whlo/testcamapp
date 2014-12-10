@@ -35,7 +35,6 @@
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.expCsvBtn = new System.Windows.Forms.Button();
-            this.testLoggingBtn = new System.Windows.Forms.Button();
             this.loggingStartBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.yAxisListBox = new System.Windows.Forms.ListBox();
@@ -54,17 +53,17 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.convSpeed = new System.Windows.Forms.Label();
+            this.devStLabel = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.forceResetBtn = new System.Windows.Forms.Button();
             this.data2Label = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.data1Label = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.devNameLabel = new System.Windows.Forms.Label();
             this.devMemoryTimer = new System.Windows.Forms.Timer(this.components);
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.devStLabel = new System.Windows.Forms.Label();
+            this.data1Label = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -102,7 +101,6 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.expCsvBtn);
-            this.groupBox1.Controls.Add(this.testLoggingBtn);
             this.groupBox1.Controls.Add(this.loggingStartBtn);
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Controls.Add(this.yAxisListBox);
@@ -121,24 +119,13 @@
             // 
             // expCsvBtn
             // 
-            this.expCsvBtn.Location = new System.Drawing.Point(6, 134);
+            this.expCsvBtn.Location = new System.Drawing.Point(6, 117);
             this.expCsvBtn.Name = "expCsvBtn";
             this.expCsvBtn.Size = new System.Drawing.Size(75, 23);
             this.expCsvBtn.TabIndex = 14;
             this.expCsvBtn.Text = "Export CSV";
             this.expCsvBtn.UseVisualStyleBackColor = true;
             this.expCsvBtn.Click += new System.EventHandler(this.expCsvBtn_Click);
-            // 
-            // testLoggingBtn
-            // 
-            this.testLoggingBtn.Enabled = false;
-            this.testLoggingBtn.Location = new System.Drawing.Point(6, 105);
-            this.testLoggingBtn.Name = "testLoggingBtn";
-            this.testLoggingBtn.Size = new System.Drawing.Size(75, 23);
-            this.testLoggingBtn.TabIndex = 12;
-            this.testLoggingBtn.Text = "1time";
-            this.testLoggingBtn.UseVisualStyleBackColor = true;
-            this.testLoggingBtn.Click += new System.EventHandler(this.testLoggingBtn_Click);
             // 
             // loggingStartBtn
             // 
@@ -230,11 +217,11 @@
             // maxChLabel
             // 
             this.maxChLabel.AutoSize = true;
-            this.maxChLabel.Location = new System.Drawing.Point(105, 45);
+            this.maxChLabel.Location = new System.Drawing.Point(107, 48);
             this.maxChLabel.Name = "maxChLabel";
-            this.maxChLabel.Size = new System.Drawing.Size(15, 12);
+            this.maxChLabel.Size = new System.Drawing.Size(11, 12);
             this.maxChLabel.TabIndex = 7;
-            this.maxChLabel.Text = " 0";
+            this.maxChLabel.Text = "0";
             // 
             // followFormChk
             // 
@@ -283,7 +270,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(6, 22);
+            this.label4.Location = new System.Drawing.Point(38, 22);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(61, 12);
             this.label4.TabIndex = 8;
@@ -292,7 +279,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 45);
+            this.label5.Location = new System.Drawing.Point(6, 48);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(93, 12);
             this.label5.TabIndex = 9;
@@ -301,7 +288,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 69);
+            this.label6.Location = new System.Drawing.Point(40, 74);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(59, 12);
             this.label6.TabIndex = 10;
@@ -309,9 +296,9 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.convSpeed);
             this.groupBox3.Controls.Add(this.devStLabel);
             this.groupBox3.Controls.Add(this.label9);
-            this.groupBox3.Controls.Add(this.textBox1);
             this.groupBox3.Controls.Add(this.forceResetBtn);
             this.groupBox3.Controls.Add(this.data2Label);
             this.groupBox3.Controls.Add(this.label8);
@@ -330,6 +317,33 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "データボード詳細設定";
             // 
+            // convSpeed
+            // 
+            this.convSpeed.AutoSize = true;
+            this.convSpeed.Location = new System.Drawing.Point(107, 152);
+            this.convSpeed.Name = "convSpeed";
+            this.convSpeed.Size = new System.Drawing.Size(11, 12);
+            this.convSpeed.TabIndex = 21;
+            this.convSpeed.Text = "0";
+            // 
+            // devStLabel
+            // 
+            this.devStLabel.AutoSize = true;
+            this.devStLabel.Location = new System.Drawing.Point(107, 74);
+            this.devStLabel.Name = "devStLabel";
+            this.devStLabel.Size = new System.Drawing.Size(28, 12);
+            this.devStLabel.TabIndex = 20;
+            this.devStLabel.Text = "Stop";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(40, 152);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(59, 12);
+            this.label9.TabIndex = 19;
+            this.label9.Text = "変換速度 :";
+            // 
             // forceResetBtn
             // 
             this.forceResetBtn.Location = new System.Drawing.Point(139, 554);
@@ -343,34 +357,25 @@
             // data2Label
             // 
             this.data2Label.AutoSize = true;
-            this.data2Label.Location = new System.Drawing.Point(105, 127);
+            this.data2Label.Location = new System.Drawing.Point(107, 126);
             this.data2Label.Name = "data2Label";
-            this.data2Label.Size = new System.Drawing.Size(9, 12);
+            this.data2Label.Size = new System.Drawing.Size(11, 12);
             this.data2Label.TabIndex = 16;
-            this.data2Label.Text = " ";
+            this.data2Label.Text = "0";
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 127);
+            this.label8.Location = new System.Drawing.Point(70, 126);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(29, 12);
             this.label8.TabIndex = 15;
             this.label8.Text = "y値 :";
             // 
-            // data1Label
-            // 
-            this.data1Label.AutoSize = true;
-            this.data1Label.Location = new System.Drawing.Point(105, 98);
-            this.data1Label.Name = "data1Label";
-            this.data1Label.Size = new System.Drawing.Size(9, 12);
-            this.data1Label.TabIndex = 14;
-            this.data1Label.Text = " ";
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 98);
+            this.label7.Location = new System.Drawing.Point(70, 100);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(29, 12);
             this.label7.TabIndex = 13;
@@ -381,15 +386,15 @@
             this.listBox1.BackColor = System.Drawing.SystemColors.ControlLight;
             this.listBox1.FormattingEnabled = true;
             this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(8, 441);
+            this.listBox1.Location = new System.Drawing.Point(6, 351);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(59, 136);
+            this.listBox1.Size = new System.Drawing.Size(59, 232);
             this.listBox1.TabIndex = 12;
             // 
             // devNameLabel
             // 
             this.devNameLabel.AutoSize = true;
-            this.devNameLabel.Location = new System.Drawing.Point(105, 22);
+            this.devNameLabel.Location = new System.Drawing.Point(107, 22);
             this.devNameLabel.Name = "devNameLabel";
             this.devNameLabel.Size = new System.Drawing.Size(27, 12);
             this.devNameLabel.TabIndex = 11;
@@ -399,30 +404,14 @@
             // 
             this.devMemoryTimer.Tick += new System.EventHandler(this.devMemoryTimer_Tick);
             // 
-            // textBox1
+            // data1Label
             // 
-            this.textBox1.Location = new System.Drawing.Point(94, 153);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(100, 19);
-            this.textBox1.TabIndex = 18;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(6, 156);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(82, 12);
-            this.label9.TabIndex = 19;
-            this.label9.Text = "サンプリング速度";
-            // 
-            // devStLabel
-            // 
-            this.devStLabel.AutoSize = true;
-            this.devStLabel.Location = new System.Drawing.Point(105, 69);
-            this.devStLabel.Name = "devStLabel";
-            this.devStLabel.Size = new System.Drawing.Size(9, 12);
-            this.devStLabel.TabIndex = 20;
-            this.devStLabel.Text = " ";
+            this.data1Label.AutoSize = true;
+            this.data1Label.Location = new System.Drawing.Point(4, 178);
+            this.data1Label.Name = "data1Label";
+            this.data1Label.Size = new System.Drawing.Size(11, 12);
+            this.data1Label.TabIndex = 14;
+            this.data1Label.Text = "0";
             // 
             // Form2
             // 
@@ -477,15 +466,14 @@
         private System.Windows.Forms.Button loggingStartBtn;
         private System.Windows.Forms.Timer devMemoryTimer;
         private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.Button testLoggingBtn;
-        private System.Windows.Forms.Label data1Label;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label data2Label;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button expCsvBtn;
         private System.Windows.Forms.Button forceResetBtn;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label devStLabel;
+        private System.Windows.Forms.Label convSpeed;
+        private System.Windows.Forms.Label data1Label;
     }
 }
