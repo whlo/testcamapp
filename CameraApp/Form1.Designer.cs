@@ -60,6 +60,7 @@
             this.videoSourcePlayer1 = new AForge.Controls.VideoSourcePlayer();
             this.videoSourcePlayer2 = new AForge.Controls.VideoSourcePlayer();
             this.videoSourcePlayer3 = new AForge.Controls.VideoSourcePlayer();
+            this.timingWarnLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.saveImgTiming)).BeginInit();
@@ -336,6 +337,7 @@
             0,
             0,
             0});
+            this.saveImgTiming.ValueChanged += new System.EventHandler(this.saveImgTiming_ValueChanged);
             // 
             // CaptureTimer
             // 
@@ -368,11 +370,21 @@
             this.videoSourcePlayer3.Text = "videoSourcePlayer3";
             this.videoSourcePlayer3.VideoSource = null;
             // 
+            // timingWarnLabel
+            // 
+            this.timingWarnLabel.AutoSize = true;
+            this.timingWarnLabel.Location = new System.Drawing.Point(451, 449);
+            this.timingWarnLabel.Name = "timingWarnLabel";
+            this.timingWarnLabel.Size = new System.Drawing.Size(13, 12);
+            this.timingWarnLabel.TabIndex = 34;
+            this.timingWarnLabel.Text = "　";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 621);
+            this.Controls.Add(this.timingWarnLabel);
             this.Controls.Add(this.videoSourcePlayer3);
             this.Controls.Add(this.videoSourcePlayer2);
             this.Controls.Add(this.videoSourcePlayer1);
@@ -405,6 +417,7 @@
             this.Name = "Form1";
             this.Text = "カメラ";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
@@ -448,6 +461,7 @@
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer2;
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer3;
         protected System.Windows.Forms.NumericUpDown saveImgTiming;
+        private System.Windows.Forms.Label timingWarnLabel;
     }
 }
 

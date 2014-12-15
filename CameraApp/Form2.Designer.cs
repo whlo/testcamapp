@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.expCsvBtn = new System.Windows.Forms.Button();
@@ -53,17 +53,21 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.convTime = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.yDataBox = new System.Windows.Forms.ListBox();
             this.convSpeed = new System.Windows.Forms.Label();
             this.devStLabel = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.forceResetBtn = new System.Windows.Forms.Button();
             this.data2Label = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
+            this.data1Label = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.xDataBox = new System.Windows.Forms.ListBox();
             this.devNameLabel = new System.Windows.Forms.Label();
             this.devMemoryTimer = new System.Windows.Forms.Timer(this.components);
-            this.data1Label = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -72,28 +76,28 @@
             // 
             // chart1
             // 
-            chartArea3.AxisX.LineColor = System.Drawing.Color.DarkGray;
-            chartArea3.AxisX.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
-            chartArea3.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
-            chartArea3.AxisY.LineColor = System.Drawing.Color.DarkGray;
-            chartArea3.AxisY.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
-            chartArea3.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
-            chartArea3.AxisY.MinorGrid.Enabled = true;
-            chartArea3.AxisY.MinorGrid.LineColor = System.Drawing.Color.Gainsboro;
-            chartArea3.BackColor = System.Drawing.Color.White;
-            chartArea3.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea3);
-            legend3.Enabled = false;
-            legend3.Name = "Legend1";
-            this.chart1.Legends.Add(legend3);
+            chartArea1.AxisX.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MinorGrid.Enabled = true;
+            chartArea1.AxisY.MinorGrid.LineColor = System.Drawing.Color.Gainsboro;
+            chartArea1.BackColor = System.Drawing.Color.White;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(12, 247);
             this.chart1.Name = "chart1";
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series3.Color = System.Drawing.Color.Red;
-            series3.Legend = "Legend1";
-            series3.Name = "Series1";
-            this.chart1.Series.Add(series3);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series1.Color = System.Drawing.Color.Red;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(300, 300);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
@@ -270,7 +274,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(38, 22);
+            this.label4.Location = new System.Drawing.Point(36, 22);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(61, 12);
             this.label4.TabIndex = 8;
@@ -279,7 +283,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 48);
+            this.label5.Location = new System.Drawing.Point(4, 48);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(93, 12);
             this.label5.TabIndex = 9;
@@ -288,7 +292,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(40, 74);
+            this.label6.Location = new System.Drawing.Point(38, 74);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(59, 12);
             this.label6.TabIndex = 10;
@@ -296,6 +300,10 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.label11);
+            this.groupBox3.Controls.Add(this.convTime);
+            this.groupBox3.Controls.Add(this.label10);
+            this.groupBox3.Controls.Add(this.yDataBox);
             this.groupBox3.Controls.Add(this.convSpeed);
             this.groupBox3.Controls.Add(this.devStLabel);
             this.groupBox3.Controls.Add(this.label9);
@@ -304,7 +312,7 @@
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.data1Label);
             this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.listBox1);
+            this.groupBox3.Controls.Add(this.xDataBox);
             this.groupBox3.Controls.Add(this.devNameLabel);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label6);
@@ -316,6 +324,34 @@
             this.groupBox3.TabIndex = 11;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "データボード詳細設定";
+            // 
+            // convTime
+            // 
+            this.convTime.AutoSize = true;
+            this.convTime.Location = new System.Drawing.Point(107, 178);
+            this.convTime.Name = "convTime";
+            this.convTime.Size = new System.Drawing.Size(11, 12);
+            this.convTime.TabIndex = 24;
+            this.convTime.Text = "0";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(38, 178);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(59, 12);
+            this.label10.TabIndex = 23;
+            this.label10.Text = "変換回数 :";
+            // 
+            // yDataBox
+            // 
+            this.yDataBox.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.yDataBox.FormattingEnabled = true;
+            this.yDataBox.ItemHeight = 12;
+            this.yDataBox.Location = new System.Drawing.Point(111, 328);
+            this.yDataBox.Name = "yDataBox";
+            this.yDataBox.Size = new System.Drawing.Size(93, 220);
+            this.yDataBox.TabIndex = 22;
             // 
             // convSpeed
             // 
@@ -338,7 +374,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(40, 152);
+            this.label9.Location = new System.Drawing.Point(38, 152);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(59, 12);
             this.label9.TabIndex = 19;
@@ -366,30 +402,39 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(70, 126);
+            this.label8.Location = new System.Drawing.Point(68, 126);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(29, 12);
             this.label8.TabIndex = 15;
             this.label8.Text = "y値 :";
             // 
+            // data1Label
+            // 
+            this.data1Label.AutoSize = true;
+            this.data1Label.Location = new System.Drawing.Point(107, 100);
+            this.data1Label.Name = "data1Label";
+            this.data1Label.Size = new System.Drawing.Size(11, 12);
+            this.data1Label.TabIndex = 14;
+            this.data1Label.Text = "0";
+            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(70, 100);
+            this.label7.Location = new System.Drawing.Point(68, 100);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(29, 12);
             this.label7.TabIndex = 13;
             this.label7.Text = "x値 :";
             // 
-            // listBox1
+            // xDataBox
             // 
-            this.listBox1.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(6, 351);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(59, 232);
-            this.listBox1.TabIndex = 12;
+            this.xDataBox.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.xDataBox.FormattingEnabled = true;
+            this.xDataBox.ItemHeight = 12;
+            this.xDataBox.Location = new System.Drawing.Point(8, 328);
+            this.xDataBox.Name = "xDataBox";
+            this.xDataBox.Size = new System.Drawing.Size(93, 220);
+            this.xDataBox.TabIndex = 12;
             // 
             // devNameLabel
             // 
@@ -404,14 +449,14 @@
             // 
             this.devMemoryTimer.Tick += new System.EventHandler(this.devMemoryTimer_Tick);
             // 
-            // data1Label
+            // label11
             // 
-            this.data1Label.AutoSize = true;
-            this.data1Label.Location = new System.Drawing.Point(4, 178);
-            this.data1Label.Name = "data1Label";
-            this.data1Label.Size = new System.Drawing.Size(11, 12);
-            this.data1Label.TabIndex = 14;
-            this.data1Label.Text = "0";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 313);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 12);
+            this.label11.TabIndex = 25;
+            this.label11.Text = "label11";
             // 
             // Form2
             // 
@@ -465,7 +510,7 @@
         private System.Windows.Forms.Label devNameLabel;
         private System.Windows.Forms.Button loggingStartBtn;
         private System.Windows.Forms.Timer devMemoryTimer;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox xDataBox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label data2Label;
         private System.Windows.Forms.Label label8;
@@ -475,5 +520,9 @@
         private System.Windows.Forms.Label devStLabel;
         private System.Windows.Forms.Label convSpeed;
         private System.Windows.Forms.Label data1Label;
+        private System.Windows.Forms.ListBox yDataBox;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label convTime;
+        private System.Windows.Forms.Label label11;
     }
 }

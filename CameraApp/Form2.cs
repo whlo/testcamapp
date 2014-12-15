@@ -12,6 +12,7 @@ using CaioCs;
 namespace CameraApp {
     public partial class Form2 : Form {
         Caio aio = new Caio();
+        DataProcessing dataProc = new DataProcessing();
         Boolean form2show = true;
         Boolean aioDeviceInit = false;
 
@@ -20,12 +21,10 @@ namespace CameraApp {
         List<string> devNameList = new List<string>();
 
         //取得電圧データ格納用
-        List<float> xVoltList = new List<float>();
-        List<float> yVoltList = new List<float>();
-        List<string> timeList = new List<string>();
+        List<DataPkt> xyVoltList = new List<DataPkt>();
 
-        List<float> voltList = new List<float>();
-        List<dataPkt> xyVoltList = new List<dataPkt>();
+        //平均化済みデータ格納用
+        ConvPkt convPkt = new ConvPkt();
 
         //listBox表示用キュー
         Queue<string> xQueue = new Queue<string>();
@@ -103,6 +102,8 @@ namespace CameraApp {
         private void caioGetDevice() {
             devList.Clear();
             devNameList.Clear();
+            xyVoltList.Clear();
+            convPkt.clear();
             string devDriverId = null;
             string devName = null;
             short count = 0;
@@ -151,7 +152,6 @@ namespace CameraApp {
                     }
                     caioGetChannel();
                     statusMsg(0, "デバイスの初期化に成功しました");
-                    loggingStartBtn.Enabled = true;
                     aioDeviceInit = true;
                 }
             }
@@ -234,11 +234,14 @@ namespace CameraApp {
             }
 
             //変換速度
-            int aioSpd = aio.SetAiSamplingClock(devId, 1000);
+            int aioSpd = aio.SetAiSamplingClock(devId, 1000);   //1000us
             if (aioSpd != 0) {
                 statusMsg(aioSpd, null);
                 return;
             }
+            float clock = 0;
+            aio.GetAiSamplingClock(devId, out clock);
+            convSpeed.Text = clock.ToString() + "μｓ";
 
             //開始条件
             int aioStartTrg = aio.SetAiStartTrigger(devId, 0);  //ソフトウェア
@@ -248,18 +251,16 @@ namespace CameraApp {
             }
 
             //停止条件
-            int aioStopTrg = aio.SetAiStopTrigger(devId, 0);    //ソフトウェア
+            int aioStopTrg = aio.SetAiStopTrigger(devId, 4);    //コマンド
             if (aioStopTrg != 0) {
                 statusMsg(aioStopTrg, null);
                 return;
             }
 
-            //リピート
-            int aioRepeat = aio.SetAiRepeatTimes(devId, 0);
-            if (aioRepeat != 0) {
-                statusMsg(aioRepeat, null);
-                return;
-            }
+            /*
+             * 停止条件 = 0とリピート回数 = 0でDEMO DEVICEにて実行するとこのプログラムではBSoDが発生しWindowsが停止する。
+             * 恐らく想定外入力によって引き起こされるドライバのバグだと思われる。
+            */
 
             //イベント駆動
             int aioEvent = aio.SetAiEvent(devId, (uint)this.Handle, (int)CaioConst.AIE_DATA_NUM);  //指定サンプリング回数格納イベント
@@ -274,8 +275,6 @@ namespace CameraApp {
                 statusMsg(aioSamplingTimes, null);
                 return;
             }
-
-            data2Label.Text = "aaaaaaaaa";
         }
 
         //機器のリセット
@@ -294,6 +293,7 @@ namespace CameraApp {
 
         private void getAioDeviceBtn_Click(object sender, EventArgs e) {
             caioGetDevice();
+            advSetChkBtn.Checked = true;
         }
 
         private void initAioDeviceBtn_Click(object sender, EventArgs e) {
@@ -301,9 +301,12 @@ namespace CameraApp {
             if (devId != -1) {
                 resetAio();
                 chart1.Series[0].Points.Clear();
-                xVoltList.Clear();
-                yVoltList.Clear();
             }
+            setLogger();
+            if (statusLabel2.Text != "デバイスの初期化に成功しました") {
+                return;
+            }
+            loggingStartBtn.Enabled = true;
         }
 
         private void Form2_FormClosed(object sender, FormClosedEventArgs e) {
@@ -324,7 +327,6 @@ namespace CameraApp {
             } else {
                 this.Width = 340;
             }
-
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e) {
@@ -340,7 +342,6 @@ namespace CameraApp {
             //ラベルで動作を変える
             if (loggingStartBtn.Text == "開始") {
                 resetAio();
-                setLogger();
                 int aioStartLogging = aio.StartAi(devId);
                 startTime = DateTime.Now;
                 if (aioStartLogging != 0) {
@@ -366,31 +367,7 @@ namespace CameraApp {
         }
 
         private void expCsvBtn_Click(object sender, EventArgs e) {
-            csvExport();
-        }
-
-        //簡易取得でデータ取得する
-        private float oneTimeGetData(short id, short ch) {
-            float data = 0;
-            int aioOneTimeLog = aio.SingleAiEx(id, ch, out data);
-            return data;
-        }
-
-        //グラフ描画用
-        private void pcMemoryTimer_Tick(object sender, EventArgs e) {
-            float xData = oneTimeGetData(devId, (short)xAxisListBox.SelectedIndex);
-            float yData = oneTimeGetData(devId, (short)yAxisListBox.SelectedIndex);
-
-            timeList.Add((DateTime.Now).ToString("hh:mm:ss:fff"));
-
-            data2Label.Text = xData.ToString();
-            data1Label.Text = yData.ToString();
-
-            xVoltList.Add(xData);
-            yVoltList.Add(yData);
-
-            chart1.Series[0].Points.AddXY(data1Label.Text, data2Label.Text);
-            //queueCtrl(data1Label.Text, data2Label.Text);
+            dataProc.csvExport(convPkt);
         }
 
         //内部メモリに貯める
@@ -410,102 +387,24 @@ namespace CameraApp {
                 xQueue.Enqueue(x);
                 xQueue.Enqueue(y);
             }
-            listBox1.Items.Clear();
+            xDataBox.Items.Clear();
             foreach (string a in xQueue) {
-                listBox1.Items.Add(a);
+                xDataBox.Items.Add(a);
             }
         }
 
         private void listBoxAdd() {
         }
 
-        //csv出力用
-        private void csvExport() {
-            using (var csv = new System.IO.StreamWriter("test.csv", false)) {
-                for (int i = 0; i < xVoltList.Count; i++) {
-                    csv.WriteLine(dataConv(i));
-                }
-            }
-        }
-
         //Listからcsv出力用のデータを作る
         private string dataConv(int i) {
-            return (timeList[i] + "," + xVoltList[i] + "," + yVoltList[i]);
-        }
-
-        //配列を2次元Listに格納
-        private void listConv(float[] volt) {
-            dataPkt pkt = new dataPkt();
-            for (int i = 0; i < volt.Length; i += 2) {
-                //xyVoltList[0].Add(volt[i]);
-                //xyVoltList[1].Add(volt[i + 1]);
-                pkt.x[i / 2] = volt[i];
-                pkt.y[i / 2] = volt[i + 1];
-            }
-            xyVoltList.Add(pkt);
+            return "0";
         }
 
         //画像の撮影日時から電圧データの平均値を取り記録する
         public void getAverage(DateTime time) {
-            double elapsedTime = unixTime(time) - unixTime(startTime);
-            int index =(int)elapsedTime / 1000;
-            if (index >= xyVoltList.Count) {
-                //data1Label.Text = "index : " + index + "list : " + xyVoltList.Count;
-                return;
-            }
-            if (elapsedTime < 2000 ) { return; }
-            dataPkt pkt = xyVoltList[index];
-            int chTime = (int)elapsedTime % 1000;
-            float x = 0;
-            float y = 0;
-            //elapsedTimeが9未満のときにエラーが出る！！
-            
-            if(chTime <= 8){
-                dataPkt pktOld = xyVoltList[index - 1];
-                for (int i = chTime; i >= 0; i--) {
-                    x += pkt.x[i];
-                    y += pkt.y[i];
-                } for (int i = 999; i >= 9 - chTime; i--) {
-                    x += pktOld.x[i];
-                    y += pktOld.y[i];
-                }
-                x = x / 10;
-                y = y / 10;
-            }else if(chTime <= 990){
-                for (int i = 9; i < 0; i--) {
-                    x += pkt.x[i];
-                    y += pkt.y[i];
-                }
-                x = x / 10;
-                y = y / 10;
-            //}else{
-            //    dataPkt pktNew = xyVoltList[index + 1];
-            //    for (int i = 999; i >= 9 - chTime; i--) {
-            //        x += pkt.x[i];
-            //        y += pkt.y[i];
-            //    } for (int i = chTime; i >= 0; i--) {
-            //        x += pktNew.x[i];
-            //        y += pktNew.y[i];
-            //    }
-            //    x = x / 10;
-            }
-            data1Label.Text = x.ToString();
-            data2Label.Text = y.ToString();
-            //float x = 0;
-            //float y = 0;
-            //for (int i = 9; i < 0; i--) {
-            //    x = x + xyVoltList[0][(int)elapsedTime - i];
-            //    y = y + xyVoltList[1][(int)elapsedTime - i];
-            //}
-            //x = x / 10;
-            //y = y / 10;
-
-        }
-
-        public static double unixTime(DateTime date) {
-            DateTime baseTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, 0);
-            TimeSpan timeSpan = date - baseTime;
-            return timeSpan.TotalMilliseconds;
+            dataProc.getAverage(time, startTime, xyVoltList, ref convPkt);
+            label11.Text = convPkt.timeCnv.Count.ToString();
         }
         
         //デバッグ用デバイスリセット
@@ -519,17 +418,15 @@ namespace CameraApp {
         //イベント受け取り
         [System.Security.Permissions.PermissionSet(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
         protected override void WndProc(ref Message m) {
-            data1Label.Text = "called :" + DateTime.Now;
+            //data1Label.Text = "called :" + DateTime.Now;
             if (m.Msg == (int)CaioConst.AIOM_AIE_DATA_NUM) {
                 float[] aioVoltData = new float[(int)m.LParam * 2];
                 int a = (int)m.LParam * 2;
                 aio.GetAiSamplingDataEx(devId, ref a, ref aioVoltData);
-                voltList.AddRange(aioVoltData);
-                listConv(aioVoltData);                     
+                dataProc.listConv(aioVoltData, ref xyVoltList);
             } else if (m.Msg == (int)CaioConst.AIOM_AIE_OFERR) statusMsg(1, "メモリがオーバーフローしました。");
             else if (m.Msg == (int)CaioConst.AIOM_AIE_SCERR) statusMsg(1, "サンプリングクロックエラー");
             else if (m.Msg == (int)CaioConst.AIOM_AIE_ADERR) statusMsg(1, "AD変換エラーです");
-
             base.WndProc(ref m);
         }
     }

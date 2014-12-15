@@ -189,10 +189,10 @@ namespace CameraApp {
         }
 
         private void saveFile(Bitmap bmpImg, int camIndex) {
-            DateTime a = DateTime.Now;
-            DateTime b = a.AddSeconds(-5);
-            string date = a.ToString("HH-mm-ss,fff");
-            logForm.getAverage(b);
+            DateTime currentTime = DateTime.Now;
+            DateTime b = currentTime.AddSeconds(-1);    //デバッグ用
+            string date = currentTime.ToString("HH-mm-ss,fff");
+            logForm.getAverage(currentTime);
             string fileName = System.IO.Path.Combine(filepath, string.Format(@"test\{0} - cam{1}.bmp", date, camIndex));
             if (bmpImg != null) {
                 bmpImg.Save(fileName);
@@ -230,6 +230,19 @@ namespace CameraApp {
 
         private void camList3_SelectedIndexChanged(object sender, EventArgs e) {
             saveImgChkCtrl(3);
+        }
+
+        private void Form1_Load(object sender, EventArgs e) {
+        }
+
+        private void saveImgTiming_ValueChanged(object sender, EventArgs e) {
+            if (saveImgTiming.Value < 1000) {
+                timingWarnLabel.ForeColor = Color.Red;
+                timingWarnLabel.Text = ("1000ms以下では動作が不安定になります。");
+            } else {
+                timingWarnLabel.ForeColor = Color.Black;
+                timingWarnLabel.Text = ("");
+            }
         }
 
     }
