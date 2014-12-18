@@ -21,7 +21,8 @@ namespace CameraApp {
         List<string> devNameList = new List<string>();
 
         //取得電圧データ格納用
-        List<DataPkt> xyVoltList = new List<DataPkt>();
+        List<DataPkt> xyVoltListPkt = new List<DataPkt>();
+        DataList xyVoltList = new DataList();
 
         //平均化済みデータ格納用
         ConvPkt convPkt = new ConvPkt();
@@ -29,6 +30,9 @@ namespace CameraApp {
         //listBox表示用キュー
         Queue<string> xQueue = new Queue<string>();
         Queue<string> yQueue = new Queue<string>();
+
+        int convertCount = 0;
+        int aiStatus = 0;
 
         DateTime startTime;
 
@@ -102,7 +106,8 @@ namespace CameraApp {
         private void caioGetDevice() {
             devList.Clear();
             devNameList.Clear();
-            xyVoltList.Clear();
+            xyVoltListPkt.Clear();
+            xyVoltList.clear();
             convPkt.clear();
             string devDriverId = null;
             string devName = null;
@@ -174,9 +179,7 @@ namespace CameraApp {
                 xAxisListBox.SelectedIndex = 0;
                 yAxisListBox.SelectedIndex = 1;
             }
-
             maxChLabel.Text = ch.ToString() + "ch";
-
         }
 
         //ロガーの設定
@@ -201,15 +204,16 @@ namespace CameraApp {
             }
 
             //計測レンジ指定
-            int aioRange = aio.SetAiRangeAll(devId, 6); //±5V
+            int aioRange = aio.SetAiRangeAll(devId, (short)CaioConst.PM5); //±5V
             if (aioRange != 0) {
                 //1664LAXでは±10V固定
                 statusMsg(aioRange, null);
-                aioRange = aio.SetAiRangeAll(devId, 0); //±10V
+                aioRange = aio.SetAiRangeAll(devId, (short)CaioConst.PM10); //±10V
                 if (aioRange != 0) {
                     statusMsg(aioCh, null);
                     return;
                 }
+                statusMsg(1, "レンジが変更できないデバイスなので±10V固定で動作します");
             }
 
             //転送方式
@@ -303,10 +307,13 @@ namespace CameraApp {
                 chart1.Series[0].Points.Clear();
             }
             setLogger();
-            if (statusLabel2.Text != "デバイスの初期化に成功しました") {
-                return;
+            if (statusLabel2.Text == "デバイスの初期化に成功しました") {
+                loggingStartBtn.Enabled = true;
+            } else if (statusLabel2.Text == "レンジが変更できないデバイスなので±10V固定で動作します") {
+                loggingStartBtn.Enabled = true;
+            } else {
+                loggingStartBtn.Enabled = false;
             }
-            loggingStartBtn.Enabled = true;
         }
 
         private void Form2_FormClosed(object sender, FormClosedEventArgs e) {
@@ -368,13 +375,16 @@ namespace CameraApp {
 
         private void expCsvBtn_Click(object sender, EventArgs e) {
             dataProc.csvExport(convPkt);
+            if (allDataExp.Checked) {
+                //dataProc.csvAllExport(xyVoltListPkt, startTime);
+                dataProc.csvAllExport(xyVoltList, startTime);
+            }
         }
 
-        //内部メモリに貯める
+        //状態取得
         private void devMemoryTimer_Tick(object sender, EventArgs e) {
-            int a = 0;
-            aio.GetAiStatus(devId, out a);
-            devStLabel.Text = a.ToString();
+            aio.GetAiStatus(devId, out aiStatus);
+            devStLabel.Text = aiStatus.ToString("X");
         }
 
         //キューの操作(危険)
@@ -393,20 +403,13 @@ namespace CameraApp {
             }
         }
 
-        private void listBoxAdd() {
-        }
-
-        //Listからcsv出力用のデータを作る
-        private string dataConv(int i) {
-            return "0";
-        }
-
         //画像の撮影日時から電圧データの平均値を取り記録する
         public void getAverage(DateTime time) {
+            //dataProc.getAverage(time, startTime, xyVoltListPkt, ref convPkt);
             dataProc.getAverage(time, startTime, xyVoltList, ref convPkt);
             label11.Text = convPkt.timeCnv.Count.ToString();
         }
-        
+
         //デバッグ用デバイスリセット
         private void forceResetBtn_Click(object sender, EventArgs e) {
             int resPrc = aio.ResetProcess(devId);
@@ -418,11 +421,15 @@ namespace CameraApp {
         //イベント受け取り
         [System.Security.Permissions.PermissionSet(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
         protected override void WndProc(ref Message m) {
-            //data1Label.Text = "called :" + DateTime.Now;
             if (m.Msg == (int)CaioConst.AIOM_AIE_DATA_NUM) {
-                float[] aioVoltData = new float[(int)m.LParam * 2];
-                int a = (int)m.LParam * 2;
-                aio.GetAiSamplingDataEx(devId, ref a, ref aioVoltData);
+                System.Diagnostics.Trace.WriteLine("メッセ" + m.LParam);
+                int convTimes = (int)m.LParam * 2;
+                float[] aioVoltData = new float[convTimes + 100];
+                convertCount += (int)m.LParam;
+                convTime.Text = convertCount.ToString();
+                aio.GetAiSamplingDataEx(devId, ref convTimes, ref aioVoltData);
+                System.Diagnostics.Trace.WriteLine("配列戻り" + convTimes);
+                //dataProc.listConv(aioVoltData, ref xyVoltListPkt);
                 dataProc.listConv(aioVoltData, ref xyVoltList);
             } else if (m.Msg == (int)CaioConst.AIOM_AIE_OFERR) statusMsg(1, "メモリがオーバーフローしました。");
             else if (m.Msg == (int)CaioConst.AIOM_AIE_SCERR) statusMsg(1, "サンプリングクロックエラー");

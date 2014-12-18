@@ -63,7 +63,7 @@ namespace CameraApp {
                     }
                 }
                 //初期選択項目を指定する
-                for (int i = 1; i < 3 + 1; i++) {
+                for (int i = 1; i < videoDevices.Count; i++) {
                     ComboBox(i).SelectedIndex = i;
                 }
                 statusMsg(0, "デバイスが" + videoDevices.Count + "個見つかりました。");
@@ -192,7 +192,7 @@ namespace CameraApp {
             DateTime currentTime = DateTime.Now;
             DateTime b = currentTime.AddSeconds(-1);    //デバッグ用
             string date = currentTime.ToString("HH-mm-ss,fff");
-            logForm.getAverage(currentTime);
+            //logForm.getAverage(currentTime);
             string fileName = System.IO.Path.Combine(filepath, string.Format(@"test\{0} - cam{1}.bmp", date, camIndex));
             if (bmpImg != null) {
                 bmpImg.Save(fileName);
@@ -247,5 +247,5 @@ namespace CameraApp {
 
     }
 
-    
+
 }

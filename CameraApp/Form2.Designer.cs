@@ -34,6 +34,7 @@
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.allDataExp = new System.Windows.Forms.CheckBox();
             this.expCsvBtn = new System.Windows.Forms.Button();
             this.loggingStartBtn = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
@@ -53,6 +54,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.convTime = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
             this.yDataBox = new System.Windows.Forms.ListBox();
@@ -67,7 +69,6 @@
             this.xDataBox = new System.Windows.Forms.ListBox();
             this.devNameLabel = new System.Windows.Forms.Label();
             this.devMemoryTimer = new System.Windows.Forms.Timer(this.components);
-            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -104,6 +105,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.allDataExp);
             this.groupBox1.Controls.Add(this.expCsvBtn);
             this.groupBox1.Controls.Add(this.loggingStartBtn);
             this.groupBox1.Controls.Add(this.label3);
@@ -120,6 +122,16 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "データボード処理";
+            // 
+            // allDataExp
+            // 
+            this.allDataExp.AutoSize = true;
+            this.allDataExp.Location = new System.Drawing.Point(6, 146);
+            this.allDataExp.Name = "allDataExp";
+            this.allDataExp.Size = new System.Drawing.Size(116, 16);
+            this.allDataExp.TabIndex = 15;
+            this.allDataExp.Text = "全てのデータを出力";
+            this.allDataExp.UseVisualStyleBackColor = true;
             // 
             // expCsvBtn
             // 
@@ -325,6 +337,15 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "データボード詳細設定";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 313);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(41, 12);
+            this.label11.TabIndex = 25;
+            this.label11.Text = "label11";
+            // 
             // convTime
             // 
             this.convTime.AutoSize = true;
@@ -449,15 +470,6 @@
             // 
             this.devMemoryTimer.Tick += new System.EventHandler(this.devMemoryTimer_Tick);
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 313);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(41, 12);
-            this.label11.TabIndex = 25;
-            this.label11.Text = "label11";
-            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -524,5 +536,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label convTime;
         private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.CheckBox allDataExp;
     }
 }
