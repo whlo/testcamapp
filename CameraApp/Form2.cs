@@ -422,13 +422,13 @@ namespace CameraApp {
         [System.Security.Permissions.PermissionSet(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
         protected override void WndProc(ref Message m) {
             if (m.Msg == (int)CaioConst.AIOM_AIE_DATA_NUM) {
-                System.Diagnostics.Trace.WriteLine("メッセ" + m.LParam);
-                int convTimes = (int)m.LParam * 2;
-                float[] aioVoltData = new float[convTimes + 100];
+                System.Diagnostics.Trace.WriteLine("メッセ" + m.LParam.ToString());
+                int convTimes = 1000;
+                float[] aioVoltData = new float[convTimes * 2];
                 convertCount += (int)m.LParam;
                 convTime.Text = convertCount.ToString();
                 aio.GetAiSamplingDataEx(devId, ref convTimes, ref aioVoltData);
-                System.Diagnostics.Trace.WriteLine("配列戻り" + convTimes);
+                System.Diagnostics.Trace.WriteLine("配列戻り" + convTimes.ToString());
                 //dataProc.listConv(aioVoltData, ref xyVoltListPkt);
                 dataProc.listConv(aioVoltData, ref xyVoltList);
             } else if (m.Msg == (int)CaioConst.AIOM_AIE_OFERR) statusMsg(1, "メモリがオーバーフローしました。");

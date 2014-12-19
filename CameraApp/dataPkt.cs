@@ -21,7 +21,7 @@ namespace CameraApp {
         }
     }
 
-    //
+    //変換済みデータ格納用
     class ConvPkt {
         public List<DateTime> timeCnv = new List<DateTime>();
         public List<float> xCnv = new List<float>();

@@ -84,14 +84,13 @@ namespace CameraApp {
 
         //配列をDataListに格納
         internal void listConv(float[] volt, ref DataList xyVoltList) {
-            if (volt.Length >= 2002) return;
             DataPkt pkt = new DataPkt();
             for (int i = 0; i < volt.Length; i += 2) {
                 pkt.x[i / 2] = volt[i];
                 pkt.y[i / 2] = volt[i + 1];
             }
             xyVoltList.x.AddRange(pkt.x);
-            xyVoltList.y.AddRange(pkt.y);
+            xyVoltList.y.AddRange(pkt.y);         
         }
 
         //平均化データをcsvに保存
