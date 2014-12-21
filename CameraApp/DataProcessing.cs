@@ -54,7 +54,7 @@ namespace CameraApp {
             int index = (int)elapsedTime;
             float x = 0;
             float y = 0;
-            for (int i = index - 1; i <= index - averageNum; i--) {
+            for (int i = index - 1; i >= index - averageNum; i--) {
                 x += xyVoltList.x[i];
                 y += xyVoltList.y[i];
             }
@@ -68,8 +68,20 @@ namespace CameraApp {
         //カメラが動作していない時に平均値を出す
         internal void getAverageNoCam(DateTime time, DateTime startTime, DataList xyVoltList, ref ConvPkt convPkt) {
             int averageNum = 10;  //平均化する数値の個数
-            double elapsedTime = unixTime(time) - unixTime(startTime);  //測定開始からの経過時間
-
+            DateTime roundedTime = new DateTime(time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second, 0);  //ミリ秒以下切り捨て
+            double elapsedTime = unixTime(roundedTime) - unixTime(startTime);  //測定開始からの経過時間
+            int index = (int)elapsedTime;
+            float x = 0;
+            float y = 0;
+            for (int i = index - 1; i >= index - averageNum; i--) {
+                x += xyVoltList.x[i];
+                y += xyVoltList.y[i];
+            }
+            x = x / averageNum;
+            y = y / averageNum;
+            convPkt.timeCnv.Add(time);
+            convPkt.xCnv.Add(x);
+            convPkt.yCnv.Add(y);
         }
 
         //UNIX時間を計算

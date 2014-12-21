@@ -15,6 +15,7 @@ namespace CameraApp {
         DataProcessing dataProc = new DataProcessing();
         Boolean form2show = true;
         Boolean aioDeviceInit = false;
+        internal Boolean aioConvertStarted = false;
 
         //デバイスリスト
         List<string> devList = new List<string>();
@@ -355,6 +356,7 @@ namespace CameraApp {
                     statusMsg(aioStartLogging, null);
                     return;
                 }
+                aioConvertStarted = true;
                 statusMsg(0, "変換を開始しました");
                 loggingStartBtn.Text = "取得中...";
                 devMemoryTimer.Start();
@@ -366,6 +368,7 @@ namespace CameraApp {
                     statusMsg(aioStopLogging, null);
                     return;
                 }
+                aioConvertStarted = false;
                 loggingStartBtn.Text = "開始";
                 statusMsg(0, "変換を停止しました");
                 mainForm.logFormData(false);
@@ -390,6 +393,11 @@ namespace CameraApp {
             devStLabel.Text = aiStatus.ToString() + " + " + samplingCount.ToString();
         }
 
+        private void standaloneLogTimer_Tick(object sender, EventArgs e) {
+            DateTime time = DateTime.Now;
+            dataProc.getAverageNoCam(time, startTime, xyVoltList, ref convPkt);
+        }
+
         //キューの操作(危険)
         private void queueCtrl(string x, string y) {
             if (xQueue.Count > 11) {
@@ -407,10 +415,18 @@ namespace CameraApp {
         }
 
         //画像の撮影日時から電圧データの平均値を取り記録する
-        public void getAverage(DateTime time) {
+        internal void getAverage(DateTime time) {
             //dataProc.getAverage(time, startTime, xyVoltListPkt, ref convPkt);
             dataProc.getAverage(time, startTime, xyVoltList, ref convPkt);
             averagingTimes.Text = convPkt.timeCnv.Count.ToString();
+        }
+
+        internal void timerStart(bool timerEnabled) {
+            if (timerEnabled) {
+                standaloneLogTimer.Start();
+            } else {
+                standaloneLogTimer.Stop();
+            }
         }
 
         //デバッグ用デバイスリセット

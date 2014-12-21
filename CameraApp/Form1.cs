@@ -169,12 +169,24 @@ namespace CameraApp {
 
         //form2から呼び出される
         public void logFormData(bool flag) {
-            if (flag && CameraCapturing) {
-                captureBtn_Click(null, null);
-                System.Threading.Thread.Sleep(500);
-                captureBtn_Click(null, null);
+            if (flag) {
+                if (DeviceExist) {
+                    if (CameraCapturing) {
+                        captureBtn_Click(null, null);
+                        System.Threading.Thread.Sleep(500);
+                        captureBtn_Click(null, null);
+                    } else {
+                        captureBtn_Click(null, null);
+                    }
+                } else {
+                    logForm.timerStart(true);
+                }
             } else {
-                captureBtn_Click(null, null);
+                if (DeviceExist && CameraCapturing) {
+                    captureBtn_Click(null, null);
+                } else {
+                    logForm.timerStart(false);
+                }
             }
         }
 
