@@ -32,7 +32,6 @@ namespace CameraApp {
         Queue<string> yQueue = new Queue<string>();
 
         int convertCount = 0;
-        int aiStatus = 0;
 
         DateTime startTime;
 
@@ -267,7 +266,8 @@ namespace CameraApp {
             */
 
             //イベント駆動
-            int aioEvent = aio.SetAiEvent(devId, (uint)this.Handle, (int)CaioConst.AIE_DATA_NUM);  //指定サンプリング回数格納イベント
+            int aioEvent = aio.SetAiEvent(devId, (uint)this.Handle, (int)CaioConst.AIE_DATA_NUM |   //指定回数格納
+                (int)CaioConst.AIE_OFERR | (int)CaioConst.AIE_SCERR | (int)CaioConst.AIE_ADERR);    //オーバーフロー、クロックエラー、AD変換エラー
             if (aioEvent != 0) {
                 statusMsg(aioEvent, null);
                 return;
@@ -383,8 +383,11 @@ namespace CameraApp {
 
         //状態取得
         private void devMemoryTimer_Tick(object sender, EventArgs e) {
+            int aiStatus = 0;
+            int samplingCount = 0;
             aio.GetAiStatus(devId, out aiStatus);
-            devStLabel.Text = aiStatus.ToString("X");
+            aio.GetAiSamplingCount(devId, out samplingCount);
+            devStLabel.Text = aiStatus.ToString() + " + " + samplingCount.ToString();
         }
 
         //キューの操作(危険)
@@ -407,7 +410,7 @@ namespace CameraApp {
         public void getAverage(DateTime time) {
             //dataProc.getAverage(time, startTime, xyVoltListPkt, ref convPkt);
             dataProc.getAverage(time, startTime, xyVoltList, ref convPkt);
-            label11.Text = convPkt.timeCnv.Count.ToString();
+            averagingTimes.Text = convPkt.timeCnv.Count.ToString();
         }
 
         //デバッグ用デバイスリセット

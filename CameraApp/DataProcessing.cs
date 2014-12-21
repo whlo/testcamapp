@@ -65,6 +65,13 @@ namespace CameraApp {
             convPkt.yCnv.Add(y);
         }
 
+        //カメラが動作していない時に平均値を出す
+        internal void getAverageNoCam(DateTime time, DateTime startTime, DataList xyVoltList, ref ConvPkt convPkt) {
+            int averageNum = 10;  //平均化する数値の個数
+            double elapsedTime = unixTime(time) - unixTime(startTime);  //測定開始からの経過時間
+
+        }
+
         //UNIX時間を計算
         private static double unixTime(DateTime date) {
             DateTime baseTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, 0);

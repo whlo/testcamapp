@@ -69,6 +69,7 @@
             this.xDataBox = new System.Windows.Forms.ListBox();
             this.devNameLabel = new System.Windows.Forms.Label();
             this.devMemoryTimer = new System.Windows.Forms.Timer(this.components);
+            this.averagingTimes = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -312,6 +313,7 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.averagingTimes);
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.convTime);
             this.groupBox3.Controls.Add(this.label10);
@@ -340,11 +342,11 @@
             // label11
             // 
             this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 313);
+            this.label11.Location = new System.Drawing.Point(26, 204);
             this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(41, 12);
+            this.label11.Size = new System.Drawing.Size(71, 12);
             this.label11.TabIndex = 25;
-            this.label11.Text = "label11";
+            this.label11.Text = "平均化回数 :";
             // 
             // convTime
             // 
@@ -470,6 +472,15 @@
             // 
             this.devMemoryTimer.Tick += new System.EventHandler(this.devMemoryTimer_Tick);
             // 
+            // averagingTimes
+            // 
+            this.averagingTimes.AutoSize = true;
+            this.averagingTimes.Location = new System.Drawing.Point(107, 204);
+            this.averagingTimes.Name = "averagingTimes";
+            this.averagingTimes.Size = new System.Drawing.Size(11, 12);
+            this.averagingTimes.TabIndex = 26;
+            this.averagingTimes.Text = "0";
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -537,5 +548,6 @@
         private System.Windows.Forms.Label convTime;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.CheckBox allDataExp;
+        private System.Windows.Forms.Label averagingTimes;
     }
 }
