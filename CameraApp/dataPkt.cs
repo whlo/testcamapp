@@ -26,6 +26,7 @@ namespace CameraApp {
         public List<DateTime> timeCnv = new List<DateTime>();
         public List<float> xCnv = new List<float>();
         public List<float> yCnv = new List<float>();
+        public List<int> count = new List<int>();
         internal void clear() {
             timeCnv.Clear();
             xCnv.Clear();

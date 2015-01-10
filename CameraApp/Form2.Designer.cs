@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.allDataExp = new System.Windows.Forms.CheckBox();
@@ -58,7 +58,6 @@
             this.label11 = new System.Windows.Forms.Label();
             this.convTime = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.yDataBox = new System.Windows.Forms.ListBox();
             this.convSpeed = new System.Windows.Forms.Label();
             this.devStLabel = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
@@ -67,7 +66,6 @@
             this.label8 = new System.Windows.Forms.Label();
             this.data1Label = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.xDataBox = new System.Windows.Forms.ListBox();
             this.devNameLabel = new System.Windows.Forms.Label();
             this.devMemoryTimer = new System.Windows.Forms.Timer(this.components);
             this.standaloneLogTimer = new System.Windows.Forms.Timer(this.components);
@@ -79,28 +77,28 @@
             // 
             // chart1
             // 
-            chartArea2.AxisX.LineColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisX.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisY.LineColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisY.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
-            chartArea2.AxisY.MinorGrid.Enabled = true;
-            chartArea2.AxisY.MinorGrid.LineColor = System.Drawing.Color.Gainsboro;
-            chartArea2.BackColor = System.Drawing.Color.White;
-            chartArea2.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea2);
-            legend2.Enabled = false;
-            legend2.Name = "Legend1";
-            this.chart1.Legends.Add(legend2);
+            chartArea1.AxisX.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisX.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisX.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MajorGrid.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MajorTickMark.LineColor = System.Drawing.Color.DarkGray;
+            chartArea1.AxisY.MinorGrid.Enabled = true;
+            chartArea1.AxisY.MinorGrid.LineColor = System.Drawing.Color.Gainsboro;
+            chartArea1.BackColor = System.Drawing.Color.White;
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Enabled = false;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(12, 247);
             this.chart1.Name = "chart1";
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-            series2.Color = System.Drawing.Color.Red;
-            series2.Legend = "Legend1";
-            series2.Name = "Series1";
-            this.chart1.Series.Add(series2);
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+            series1.Color = System.Drawing.Color.Red;
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.chart1.Series.Add(series1);
             this.chart1.Size = new System.Drawing.Size(300, 300);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
@@ -318,7 +316,6 @@
             this.groupBox3.Controls.Add(this.label11);
             this.groupBox3.Controls.Add(this.convTime);
             this.groupBox3.Controls.Add(this.label10);
-            this.groupBox3.Controls.Add(this.yDataBox);
             this.groupBox3.Controls.Add(this.convSpeed);
             this.groupBox3.Controls.Add(this.devStLabel);
             this.groupBox3.Controls.Add(this.label9);
@@ -327,7 +324,6 @@
             this.groupBox3.Controls.Add(this.label8);
             this.groupBox3.Controls.Add(this.data1Label);
             this.groupBox3.Controls.Add(this.label7);
-            this.groupBox3.Controls.Add(this.xDataBox);
             this.groupBox3.Controls.Add(this.devNameLabel);
             this.groupBox3.Controls.Add(this.label4);
             this.groupBox3.Controls.Add(this.label6);
@@ -375,16 +371,6 @@
             this.label10.Size = new System.Drawing.Size(59, 12);
             this.label10.TabIndex = 23;
             this.label10.Text = "変換回数 :";
-            // 
-            // yDataBox
-            // 
-            this.yDataBox.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.yDataBox.FormattingEnabled = true;
-            this.yDataBox.ItemHeight = 12;
-            this.yDataBox.Location = new System.Drawing.Point(111, 328);
-            this.yDataBox.Name = "yDataBox";
-            this.yDataBox.Size = new System.Drawing.Size(93, 220);
-            this.yDataBox.TabIndex = 22;
             // 
             // convSpeed
             // 
@@ -459,16 +445,6 @@
             this.label7.TabIndex = 13;
             this.label7.Text = "x値 :";
             // 
-            // xDataBox
-            // 
-            this.xDataBox.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.xDataBox.FormattingEnabled = true;
-            this.xDataBox.ItemHeight = 12;
-            this.xDataBox.Location = new System.Drawing.Point(8, 328);
-            this.xDataBox.Name = "xDataBox";
-            this.xDataBox.Size = new System.Drawing.Size(93, 220);
-            this.xDataBox.TabIndex = 12;
-            // 
             // devNameLabel
             // 
             this.devNameLabel.AutoSize = true;
@@ -539,7 +515,6 @@
         private System.Windows.Forms.Label devNameLabel;
         private System.Windows.Forms.Button loggingStartBtn;
         private System.Windows.Forms.Timer devMemoryTimer;
-        private System.Windows.Forms.ListBox xDataBox;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label data2Label;
         private System.Windows.Forms.Label label8;
@@ -549,7 +524,6 @@
         private System.Windows.Forms.Label devStLabel;
         private System.Windows.Forms.Label convSpeed;
         private System.Windows.Forms.Label data1Label;
-        private System.Windows.Forms.ListBox yDataBox;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label convTime;
         private System.Windows.Forms.Label label11;

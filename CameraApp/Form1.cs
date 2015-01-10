@@ -173,7 +173,7 @@ namespace CameraApp {
                 if (DeviceExist) {
                     if (CameraCapturing) {
                         captureBtn_Click(null, null);
-                        System.Threading.Thread.Sleep(500);
+                        System.Threading.Thread.Sleep(2000);
                         captureBtn_Click(null, null);
                     } else {
                         captureBtn_Click(null, null);
@@ -204,7 +204,7 @@ namespace CameraApp {
             DateTime currentTime = DateTime.Now;
             DateTime b = currentTime.AddSeconds(-1);    //デバッグ用
             string date = currentTime.ToString("HH-mm-ss,fff");
-            //logForm.getAverage(currentTime);
+            logForm.getAverage(currentTime);
             string fileName = System.IO.Path.Combine(filepath, string.Format(@"test\{0} - cam{1}.bmp", date, camIndex));
             if (bmpImg != null) {
                 bmpImg.Save(fileName);

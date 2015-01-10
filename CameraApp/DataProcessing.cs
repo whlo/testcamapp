@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace CameraApp {
     class DataProcessing {
+
         //平均値算出
         internal void getAverage(DateTime time, DateTime startTime, List<DataPkt> xyVoltListPkt, ref ConvPkt convPkt) {
             int averageNum = 10;  //平均化する数値の個数
@@ -48,40 +49,39 @@ namespace CameraApp {
         }
 
         //リストから平均値算出
-        internal void getAverage(DateTime time, DateTime startTime, DataList xyVoltList, ref ConvPkt convPkt) {
-            int averageNum = 10;  //平均化する数値の個数
+        internal void getAverage(DateTime time, DateTime startTime, ref ConvPkt convPkt) {
             double elapsedTime = unixTime(time) - unixTime(startTime);  //測定開始からの経過時間
             int index = (int)elapsedTime;
+            convPkt.timeCnv.Add(time);
+            convPkt.count.Add(index);
+        }
+
+        internal void calcAverage(DataList xyVoltList, ref ConvPkt convPkt) {
+            int ave = 5;
             float x = 0;
             float y = 0;
-            for (int i = index - 1; i >= index - averageNum; i--) {
-                x += xyVoltList.x[i];
-                y += xyVoltList.y[i];
+            for (int i = 0; i < convPkt.count.Count; i++) {
+                int count = convPkt.count[i];
+                if (count < xyVoltList.x.Count) {
+                    for (int j = count; j > count - ave + 1; j--) {
+                        x += xyVoltList.x[j];
+                        y += xyVoltList.y[j];
+                    }
+                    x = x / ave;
+                    y = y / ave;
+                    convPkt.xCnv.Add(x);
+                    convPkt.yCnv.Add(y);
+                }
             }
-            x = x / averageNum;
-            y = y / averageNum;
-            convPkt.timeCnv.Add(time);
-            convPkt.xCnv.Add(x);
-            convPkt.yCnv.Add(y);
         }
 
         //カメラが動作していない時に平均値を出す
         internal void getAverageNoCam(DateTime time, DateTime startTime, DataList xyVoltList, ref ConvPkt convPkt) {
-            int averageNum = 10;  //平均化する数値の個数
             DateTime roundedTime = new DateTime(time.Year, time.Month, time.Day, time.Hour, time.Minute, time.Second, 0);  //ミリ秒以下切り捨て
+            convPkt.timeCnv.Add(roundedTime);
             double elapsedTime = unixTime(roundedTime) - unixTime(startTime);  //測定開始からの経過時間
             int index = (int)elapsedTime;
-            float x = 0;
-            float y = 0;
-            for (int i = index - 1; i >= index - averageNum; i--) {
-                x += xyVoltList.x[i];
-                y += xyVoltList.y[i];
-            }
-            x = x / averageNum;
-            y = y / averageNum;
-            convPkt.timeCnv.Add(time);
-            convPkt.xCnv.Add(x);
-            convPkt.yCnv.Add(y);
+            convPkt.count.Add(index);
         }
 
         //UNIX時間を計算
@@ -91,47 +91,24 @@ namespace CameraApp {
             return timeSpan.TotalMilliseconds;
         }
 
-        //パケットを2次元Listに格納
-        internal void listConv(float[] volt, ref List<DataPkt> xyVoltList) {
-            DataPkt pkt = new DataPkt();
-            for (int i = 0; i < volt.Length; i += 2) {
-                pkt.x[i / 2] = volt[i];
-                pkt.y[i / 2] = volt[i + 1];
-            }
-            xyVoltList.Add(pkt);
-        }
-
         //配列をDataListに格納
         internal void listConv(float[] volt, ref DataList xyVoltList) {
-            DataPkt pkt = new DataPkt();
+            DataList lst = new DataList();
             for (int i = 0; i < volt.Length; i += 2) {
-                pkt.x[i / 2] = volt[i];
-                pkt.y[i / 2] = volt[i + 1];
+                lst.x.Add(volt[i]);
+                lst.y.Add(volt[i + 1]);
             }
-            xyVoltList.x.AddRange(pkt.x);
-            xyVoltList.y.AddRange(pkt.y);         
+            xyVoltList.x.AddRange(lst.x);
+            xyVoltList.y.AddRange(lst.y);         
         }
 
         //平均化データをcsvに保存
         internal void csvExport(ConvPkt convPkt) {
             using (var csv = new System.IO.StreamWriter("test.csv", false)) {
-                for (int i = 0; i < convPkt.timeCnv.Count; i++) {
-                    csv.WriteLine(convPkt.timeCnv[i] + "," + convPkt.xCnv[i] + "," + convPkt.yCnv[i]);
+                for (int i = 0; i < convPkt.xCnv.Count; i++) {
+                    csv.WriteLine(convPkt.timeCnv[i].ToString("HH-mm-ss-fff") + "," + convPkt.count[i].ToString() + "," + convPkt.xCnv[i] + "," + convPkt.yCnv[i]);
                 }
             }
-        }
-
-        //DataPktの全データをcsv出力
-        internal void csvAllExport(List<DataPkt> pkt, DateTime startTime) {
-            using (var csvAll = new System.IO.StreamWriter("test_all.csv", false)) {
-                csvAll.WriteLine(startTime.ToString("HH-mm-ss,fff"));
-                for (int i = 0; i < pkt.Count; i++) {
-                    for (int j = 0; j < pkt[i].x.Count() - 1; j++) {
-                        csvAll.WriteLine(pkt[i].x[j] + "," + pkt[i].y[j]);
-                    }
-                }
-            }
-
         }
 
         //DataList内の全データをcsv出力
@@ -142,8 +119,6 @@ namespace CameraApp {
                         csvAll.WriteLine(dataList.x[i] + "," + dataList.y[i]);
                 }
             }
-
         }
-
     }
 }

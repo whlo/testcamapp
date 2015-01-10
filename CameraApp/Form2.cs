@@ -275,7 +275,7 @@ namespace CameraApp {
             }
 
             //イベント発生サンプリング回数設定
-            int aioSamplingTimes = aio.SetAiEventSamplingTimes(devId, 1000);    //1000回
+            int aioSamplingTimes = aio.SetAiEventSamplingTimes(devId, 1000);    //1000回だと画像データ取得時刻にかなりの確率で間に合わない
             if (aioSamplingTimes != 0) {
                 statusMsg(aioSamplingTimes, null);
                 return;
@@ -306,6 +306,8 @@ namespace CameraApp {
             if (devId != -1) {
                 resetAio();
                 chart1.Series[0].Points.Clear();
+                convTime.Text = "0";
+                convertCount = 0;
             }
             setLogger();
             if (statusLabel2.Text == "デバイスの初期化に成功しました") {
@@ -377,11 +379,9 @@ namespace CameraApp {
         }
 
         private void expCsvBtn_Click(object sender, EventArgs e) {
+            dataProc.calcAverage(xyVoltList, ref convPkt);
             dataProc.csvExport(convPkt);
-            if (allDataExp.Checked) {
-                //dataProc.csvAllExport(xyVoltListPkt, startTime);
-                dataProc.csvAllExport(xyVoltList, startTime);
-            }
+            dataProc.csvAllExport(xyVoltList, startTime);
         }
 
         //状態取得
@@ -398,26 +398,10 @@ namespace CameraApp {
             dataProc.getAverageNoCam(time, startTime, xyVoltList, ref convPkt);
         }
 
-        //キューの操作(危険)
-        private void queueCtrl(string x, string y) {
-            if (xQueue.Count > 11) {
-                xQueue.Dequeue();
-            } else if (yQueue.Count > 11) {
-                yQueue.Dequeue();
-            } else {
-                xQueue.Enqueue(x);
-                xQueue.Enqueue(y);
-            }
-            xDataBox.Items.Clear();
-            foreach (string a in xQueue) {
-                xDataBox.Items.Add(a);
-            }
-        }
-
-        //画像の撮影日時から電圧データの平均値を取り記録する
+        //画像の撮影日時を記録する
         internal void getAverage(DateTime time) {
             //dataProc.getAverage(time, startTime, xyVoltListPkt, ref convPkt);
-            dataProc.getAverage(time, startTime, xyVoltList, ref convPkt);
+            dataProc.getAverage(time, startTime, ref convPkt);
             averagingTimes.Text = convPkt.timeCnv.Count.ToString();
         }
 
@@ -441,13 +425,13 @@ namespace CameraApp {
         [System.Security.Permissions.PermissionSet(System.Security.Permissions.SecurityAction.Demand, Name = "FullTrust")]
         protected override void WndProc(ref Message m) {
             if (m.Msg == (int)CaioConst.AIOM_AIE_DATA_NUM) {
-                System.Diagnostics.Trace.WriteLine("メッセ" + m.LParam.ToString());
+                //System.Diagnostics.Trace.WriteLine("メッセ" + m.LParam.ToString());
                 int convTimes = 1000;
                 float[] aioVoltData = new float[convTimes * 2];
                 convertCount += (int)m.LParam;
                 convTime.Text = convertCount.ToString();
                 aio.GetAiSamplingDataEx(devId, ref convTimes, ref aioVoltData);
-                System.Diagnostics.Trace.WriteLine("配列戻り" + convTimes.ToString());
+                //System.Diagnostics.Trace.WriteLine("配列戻り" + convTimes.ToString());
                 //dataProc.listConv(aioVoltData, ref xyVoltListPkt);
                 dataProc.listConv(aioVoltData, ref xyVoltList);
             } else if (m.Msg == (int)CaioConst.AIOM_AIE_OFERR) statusMsg(1, "メモリがオーバーフローしました。");
