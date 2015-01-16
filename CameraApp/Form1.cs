@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -202,12 +203,12 @@ namespace CameraApp {
 
         private void saveFile(Bitmap bmpImg, int camIndex) {
             DateTime currentTime = DateTime.Now;
-            DateTime b = currentTime.AddSeconds(-1);    //デバッグ用
+            //DateTime b = currentTime.AddSeconds(-1);    //デバッグ用
             string date = currentTime.ToString("HH-mm-ss,fff");
             logForm.getAverage(currentTime);
             string fileName = System.IO.Path.Combine(filepath, string.Format(@"test\{0} - cam{1}.bmp", date, camIndex));
             if (bmpImg != null) {
-                bmpImg.Save(fileName);
+                bmpImg.Save(fileName,ImageFormat.Bmp);
                 bmpImg.Dispose();
             }
         }
