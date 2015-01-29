@@ -16,6 +16,10 @@ namespace CameraApp {
         private FilterInfoCollection videoDevices;
         private bool DeviceExist = false;
         private bool CameraCapturing = false;
+        private VideoCaptureDevice videoSource1 = null;
+        private VideoCaptureDevice videoSource2 = null;
+        private VideoCaptureDevice videoSource3 = null;
+
 
         string filepath = Environment.CurrentDirectory;
 
@@ -64,8 +68,10 @@ namespace CameraApp {
                     }
                 }
                 //初期選択項目を指定する
-                for (int i = 1; i < videoDevices.Count; i++) {
-                    ComboBox(i).SelectedIndex = i;
+                for (int i = 1; i <= videoDevices.Count; i++) {
+                    if (i <= 3) {
+                        ComboBox(i).SelectedIndex = i;
+                    }
                 }
                 statusMsg(0, "デバイスが" + videoDevices.Count + "個見つかりました。");
             }
@@ -79,17 +85,17 @@ namespace CameraApp {
         //カメラキャプチャ用
         public void camCapture() {
             if (camList1.SelectedIndex != 0) {
-                VideoCaptureDevice videoSource1 = new VideoCaptureDevice(videoDevices[camList1.SelectedIndex - 1].MonikerString);
+                videoSource1 = new VideoCaptureDevice(videoDevices[camList1.SelectedIndex - 1].MonikerString);
                 videoSourcePlayer1.VideoSource = videoSource1;
                 videoSourcePlayer1.Start();
             }
             if (camList2.SelectedIndex != 0) {
-                VideoCaptureDevice videoSource2 = new VideoCaptureDevice(videoDevices[camList2.SelectedIndex - 1].MonikerString);
+                videoSource2 = new VideoCaptureDevice(videoDevices[camList2.SelectedIndex - 1].MonikerString);
                 videoSourcePlayer2.VideoSource = videoSource2;
                 videoSourcePlayer2.Start();
             }
             if (camList3.SelectedIndex != 0) {
-                VideoCaptureDevice videoSource3 = new VideoCaptureDevice(videoDevices[camList3.SelectedIndex - 1].MonikerString);
+                videoSource3 = new VideoCaptureDevice(videoDevices[camList3.SelectedIndex - 1].MonikerString);
                 videoSourcePlayer3.VideoSource = videoSource3;
                 videoSourcePlayer3.Start();
             }
@@ -105,10 +111,10 @@ namespace CameraApp {
                     camCapture();
                     statusMsg(0, "キャプチャ中...");
                     captureBtn.Text = "Running...";
-                    fpsTimer.Enabled = true;
                     saveImgTiming.Enabled = false;
                     CaptureTimer.Interval = (int)saveImgTiming.Value;
                     CaptureTimer.Enabled = true;
+                    fpsTimer.Enabled = true;
                 } else {
                     statusMsg(1, "デバイスが存在しません。");
                 }
@@ -149,12 +155,41 @@ namespace CameraApp {
 
         //フォームが閉じた時
         private void Form1_FormClosed(object sender, FormClosedEventArgs e) {
-            //CloseVideoSource();
+            CloseVideoSource();
+        }
+
+        //リソース開放
+        private void CloseVideoSource()
+        {
+            if (videoSource1 != null)
+            {
+                if (videoSource1.IsRunning)
+                {
+                    videoSource1.SignalToStop();
+                    videoSource1 = null;
+                }
+            }
+            if (videoSource2 != null) {
+                if (videoSource2.IsRunning) {
+                    videoSource2.SignalToStop();
+                    videoSource2 = null;
+                }
+            }
+            if (videoSource3 != null) {
+                if (videoSource3.IsRunning) {
+                    videoSource3.SignalToStop();
+                    videoSource3 = null;
+                }
+            }
         }
 
         //FPS表示
-        private void capturingTimer_Tick(object sender, EventArgs e) {
-            //cam1InfoLabel.Text = videoSourcePlayer1.GetCurrentVideoFrame() + "FPS";
+        private void fpsTimer_Tick(object sender, EventArgs e) {
+            if (CameraCapturing) {
+                if (videoSourcePlayer1.IsRunning) cam1InfoLabel.Text = videoSource1.FramesReceived + "FPS";
+                if (videoSourcePlayer2.IsRunning) cam2InfoLabel.Text = videoSource2.FramesReceived + "FPS";
+                if (videoSourcePlayer3.IsRunning) cam3InfoLabel.Text = videoSource3.FramesReceived + "FPS";
+            }
         }
 
         //子フォームの表示

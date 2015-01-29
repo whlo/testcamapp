@@ -61,6 +61,7 @@
             this.videoSourcePlayer2 = new AForge.Controls.VideoSourcePlayer();
             this.videoSourcePlayer3 = new AForge.Controls.VideoSourcePlayer();
             this.timingWarnLabel = new System.Windows.Forms.Label();
+            this.cam3InfoLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.saveImgTiming)).BeginInit();
@@ -195,7 +196,7 @@
             // fpsTimer
             // 
             this.fpsTimer.Interval = 1000;
-            this.fpsTimer.Tick += new System.EventHandler(this.capturingTimer_Tick);
+            this.fpsTimer.Tick += new System.EventHandler(this.fpsTimer_Tick);
             // 
             // cam1InfoLabel
             // 
@@ -379,11 +380,22 @@
             this.timingWarnLabel.TabIndex = 34;
             this.timingWarnLabel.Text = "　";
             // 
+            // cam3InfoLabel
+            // 
+            this.cam3InfoLabel.AutoSize = true;
+            this.cam3InfoLabel.ForeColor = System.Drawing.SystemColors.HotTrack;
+            this.cam3InfoLabel.Location = new System.Drawing.Point(52, 292);
+            this.cam3InfoLabel.Name = "cam3InfoLabel";
+            this.cam3InfoLabel.Size = new System.Drawing.Size(28, 12);
+            this.cam3InfoLabel.TabIndex = 35;
+            this.cam3InfoLabel.Text = "Stop";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 621);
+            this.Controls.Add(this.cam3InfoLabel);
             this.Controls.Add(this.timingWarnLabel);
             this.Controls.Add(this.videoSourcePlayer3);
             this.Controls.Add(this.videoSourcePlayer2);
@@ -462,6 +474,7 @@
         private AForge.Controls.VideoSourcePlayer videoSourcePlayer3;
         protected System.Windows.Forms.NumericUpDown saveImgTiming;
         private System.Windows.Forms.Label timingWarnLabel;
+        private System.Windows.Forms.Label cam3InfoLabel;
     }
 }
 

@@ -439,5 +439,6 @@ namespace CameraApp {
             else if (m.Msg == (int)CaioConst.AIOM_AIE_ADERR) statusMsg(1, "AD変換エラーです");
             base.WndProc(ref m);
         }
+        
     }
 }
