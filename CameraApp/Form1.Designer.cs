@@ -97,7 +97,7 @@
             // camList1
             // 
             this.camList1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.camList1.DropDownWidth = 400;
+            this.camList1.DropDownWidth = 450;
             this.camList1.FormattingEnabled = true;
             this.camList1.Location = new System.Drawing.Point(485, 339);
             this.camList1.Name = "camList1";
@@ -108,7 +108,7 @@
             // camList2
             // 
             this.camList2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.camList2.DropDownWidth = 400;
+            this.camList2.DropDownWidth = 450;
             this.camList2.FormattingEnabled = true;
             this.camList2.Location = new System.Drawing.Point(485, 365);
             this.camList2.Name = "camList2";
@@ -119,7 +119,7 @@
             // camList3
             // 
             this.camList3.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.camList3.DropDownWidth = 400;
+            this.camList3.DropDownWidth = 450;
             this.camList3.FormattingEnabled = true;
             this.camList3.Location = new System.Drawing.Point(485, 391);
             this.camList3.Name = "camList3";
@@ -426,6 +426,8 @@
             this.Controls.Add(this.menuStrip1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "Form1";
             this.Text = "カメラ";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form1_FormClosed);
