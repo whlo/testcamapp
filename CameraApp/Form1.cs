@@ -16,6 +16,7 @@ namespace CameraApp {
         private FilterInfoCollection videoDevices;
         private bool DeviceExist = false;
         private bool CameraCapturing = false;
+        private bool loggingIsRunning = false;
         private VideoCaptureDevice videoSource1 = null;
         private VideoCaptureDevice videoSource2 = null;
         private VideoCaptureDevice videoSource3 = null;
@@ -206,6 +207,7 @@ namespace CameraApp {
         //form2から呼び出される
         public void logFormData(bool flag) {
             if (flag) {
+                loggingIsRunning = true;
                 if (DeviceExist) {
                     if (CameraCapturing) {
                         captureBtn_Click(null, null);
@@ -218,6 +220,7 @@ namespace CameraApp {
                     logForm.timerStart(true);
                 }
             } else {
+                loggingIsRunning = false;
                 if (DeviceExist && CameraCapturing) {
                     captureBtn_Click(null, null);
                 } else {
@@ -240,7 +243,7 @@ namespace CameraApp {
             DateTime currentTime = DateTime.Now;
             //DateTime b = currentTime.AddSeconds(-1);    //デバッグ用
             string date = currentTime.ToString("HH-mm-ss,fff");
-            logForm.getAverage(currentTime);
+            if (loggingIsRunning) logForm.getAverage(currentTime);
             string fileName = System.IO.Path.Combine(filepath, string.Format(@"test\{0} - cam{1}.bmp", date, camIndex));
             if (bmpImg != null) {
                 bmpImg.Save(fileName,ImageFormat.Bmp);

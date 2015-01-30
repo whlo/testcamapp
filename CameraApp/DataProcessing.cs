@@ -105,7 +105,7 @@ namespace CameraApp {
         //平均化データをcsvに保存
         internal void csvExport(ConvPkt convPkt) {
             using (var csv = new System.IO.StreamWriter("test.csv", false)) {
-                for (int i = 0; i < convPkt.xCnv.Count; i++) {
+                for (int i = 0; i < (convPkt.xCnv.Count); i++) {
                     csv.WriteLine(convPkt.timeCnv[i].ToString("HH-mm-ss-fff") + "," + convPkt.count[i].ToString() + "," + convPkt.xCnv[i] + "," + convPkt.yCnv[i]);
                 }
             }
