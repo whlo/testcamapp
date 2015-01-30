@@ -191,11 +191,6 @@ namespace CameraApp {
                 return;
             }
 
-            //チャネル変換順序
-            //1664LAXではチャネルはAI00,AI01...の順で固定なのでエラー無視
-            aio.SetAiChannelSequence(devId, 0, (short)xAxisListBox.SelectedIndex);
-            aio.SetAiChannelSequence(devId, 1, (short)yAxisListBox.SelectedIndex);
-
             //使用チャネル数
             int aioCh = aio.SetAiChannels(devId, 2);    //2ch
             if (aioCh != 0) {
@@ -346,6 +341,17 @@ namespace CameraApp {
             loggingStartBtn.Enabled = false;
         }
 
+
+        //チャネル変換順序
+        //1664LAXではチャネルはAI00,AI01...の順で固定なのでエラー無視
+        private void xAxisListBox_SelectedIndexChanged(object sender, EventArgs e) {
+            if (aioDeviceInit) aio.SetAiChannelSequence(devId, 0, (short)xAxisListBox.SelectedIndex);
+        }
+
+        private void yAxisListBox_SelectedIndexChanged(object sender, EventArgs e) {
+            if (aioDeviceInit) aio.SetAiChannelSequence(devId, 1, (short)yAxisListBox.SelectedIndex);
+        }
+
         //ロギング開始
         private void loggingStartBtn_Click(object sender, EventArgs e) {
             Form1 mainForm = (Form1)this.Owner;
@@ -439,6 +445,5 @@ namespace CameraApp {
             else if (m.Msg == (int)CaioConst.AIOM_AIE_ADERR) statusMsg(1, "AD変換エラーです");
             base.WndProc(ref m);
         }
-        
     }
 }
