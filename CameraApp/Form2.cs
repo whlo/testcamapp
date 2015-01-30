@@ -386,8 +386,8 @@ namespace CameraApp {
 
         private void expCsvBtn_Click(object sender, EventArgs e) {
             dataProc.calcAverage(xyVoltList, ref convPkt);
-            dataProc.csvExport(convPkt);
             dataProc.csvAllExport(xyVoltList, startTime);
+            dataProc.csvExport(convPkt);
         }
 
         //状態取得
